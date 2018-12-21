@@ -9,6 +9,6 @@
 ### 4、真实世界
 多用户，oauth，多应用环境（h5+微信小程序+app）
 ## 二、项目框架
-前端：
-后台：Spring Boot
-数据库：MySQL
+- 前端：
+- 后台：Spring Boot
+- 数据库：MySQL
