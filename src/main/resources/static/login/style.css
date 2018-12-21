@@ -1,0 +1,26 @@
+body {
+    background-image: url(../img/back.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: Center;
+}
+.login {
+    height: 200px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    background-color: #f7f7f7;
+    border-radius:7px;
+}
+.btn {
+    width: 270px;
+}
+.login-form{
+    margin-right: 5%;
+    margin-left: 5%;
+}
