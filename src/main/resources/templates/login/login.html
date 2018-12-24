@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+
+    <link rel="stylesheet" href="/css/login.css" type="text/css"/>
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+
+    <link rel="stylesheet" href="/css/zui.min.css">
+    <!-- ZUI Javascript 依赖 jQuery -->
+    <script src="/lib/jquery/jquery.js"></script>
+    <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+    <script src="/js/zui.min.js"></script>
+</head>
+<body>
+<div class="login">
+    <form class="login-form" action="/login/dologin" method="post">
+        <br/>
+        <input type="text" class="form-control form-ele" placeholder="用户名" name="userName">
+        <br/>
+        <input type="password" class="form-control form-ele" placeholder="密码" name="passWord">
+        <br/>
+        <button class="btn form-ele" type="submit">登录</button>
+        <br/>
+        <a href="/register" style="float: right">注册</a>
+        <p th:text="${error}" style="color: red;"></p>
+    </form>
+</div>
+
+</body>
+</html>
