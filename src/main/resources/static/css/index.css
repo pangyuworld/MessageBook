@@ -1,4 +1,37 @@
-.messageBox{
+.messageBox {
     border-style: solid;
+    width: 500px;
+    height: auto;
+    padding-bottom: 20px;
+}
 
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url(/img/back.jpg);
+    background-position: center center;
+    background-repeat: repeat-y;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.heads {
+    z-index:999;
+    position:fixed;
+    float: right;
+    background-color:#660033;
+    color: white;
+    font-size: 20px;
+    height: 35px;
+    width: 100%;
+    font-family: "Times New Roman", Times, serif;
+    text-align: center;
+    padding: 0px 0;
+}
+
+.texts  {
+    text-align: center;
+}
+.message{
+    margin-top: 16px;
 }

@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -25,8 +25,8 @@ public class LoginController {
      * @return org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/login")
-    public ModelAndView indexLogin() {
-        return new ModelAndView("/login/login.html");
+    public String indexLogin() {
+        return "login/login";
     }
 
     /**
@@ -37,8 +37,8 @@ public class LoginController {
      * @return org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/register")
-    public ModelAndView indexRegister(){
-        return new ModelAndView("/login/register");
+    public String indexRegister(){
+        return "/login/register";
     }
 
     /**
@@ -73,20 +73,32 @@ public class LoginController {
      * @return java.lang.String
      */
     @PostMapping("/register/doregister")
-    public String doRegister(User user,String password2, Model model){
+    public String doRegister(User user, Model model, HttpServletRequest request){
         User realUser=userJPA.findByUserName(user.getUserName());
+        String password2=request.getParameter("password2");
+        if(user.getUserName()==null||user.getUserName().length()<1){
+            model.addAttribute("reactor","请输入用户名");
+            return "login/register";
+        }
         if (!password2.equals(user.getPassWord())){
-            model.addAttribute("error","两次输入密码不一致");
-            return "/register";
+            model.addAttribute("reactor","两次输入密码不一致");
+            return "login/register";
         }
         if (realUser!=null){
-            model.addAttribute("error","该用户已存在");
-            return "/register";
+            model.addAttribute("reactor","该用户已存在");
+            return "login/register";
         }
         userJPA.saveAndFlush(user);
         return "redirect:/login";
     }
 
+    /**
+     *  注销
+     * @author pang
+     * @date 2018/12/25
+     * @param session
+     * @return java.lang.String
+     */
     @GetMapping("/cancel")
     public String cancel(HttpSession session){
         session.setAttribute("user",null);

@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
+<head>
     <meta charset="UTF-8"/>
     <title>留言板</title>
     <link rel="stylesheet" href="/css/index.css" type="text/css"/>
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+    <script src="/lib/kindeditor/kindeditor.min.js"></script>
+
+    <link rel="stylesheet" href="/css/zui.min.css"/>
+    <!-- ZUI Javascript 依赖 jQuery -->
+    <script src="/lib/jquery/jquery.js"></script>
+    <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+    <script src="/js/zui.min.js"></script>
+    <script>
+        KindEditor.create('textarea.asss', {
+            basePath: '/lib/kindeditor/',
+            bodyClass: 'article-content',
+            resizeType: 1,
+            allowPreviewEmoticons: false,
+            allowImageUpload: false,
+            items: [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
+            ]
+        });
+    </script>
     <script th:inline="javascript">
         load = function () {
             var head = document.getElementById("head");
@@ -13,6 +35,7 @@
                 var h = document.createElement("a");
                 h.href = "/cancel";
                 h.innerText = "注销";
+                h.className = 'label label-badge label-warning head-text';
                 text.innerText = user + " ";
                 head.appendChild(text);
                 text.appendChild(h);
@@ -23,41 +46,63 @@
                 h2.href = 'register';
                 h1.innerText = "登陆";
                 h2.innerText = "注册";
+                h1.className = 'label label-badge label-success head-text';
+                h2.className = 'label label-badge label-danger head-text';
                 head.appendChild(h1);
                 head.append("   ");
                 head.appendChild(h2);
             }
+
         }
     </script>
 </head>
 <body onload="load();">
-<div>
-    <div id="head"></div>
+<div id="head" class="heads"></div>
+<div class="container">
     <br/>
-    <form action="/message/add" method="get">
-        <textarea rows="10" cols="30" placeholder="留下你的评论" name="content"></textarea>
-        <input type="submit" value="提交">
+    <form action="/message/add" method="get" class="message">
+        <div style="text-align:center;width: 100%;">
+            <textarea id="content" class="form-control asss"
+                      style="display:block;height:150px;resize:none" placeholder="留下你的评论"
+                      name="content"></textarea>
+        </div>
+        <div class="input-control has-label-left ">
+            <input type="submit"  id="commit" class="btn btn-primary" value="留言" style="float: right;">
+            <br/>
+        </div>
     </form>
     <br/>
-    <div th:each="message,messageStat :${messagelist}" class="messageBox">
-        <p th:text="'留言人：'+${message.user.userName}"></p>
-        <p th:text="'留言时间：'+${message.time.toString().substring(0,19)}"></p>
-        <p th:text="'留言内容：'+${message.content}"></p>
-        <p>回复：</p>
-        <div th:each="common,commonStat :${message.commons}">
-            <p th:text="'&nbsp&nbsp&nbsp&nbsp'+${common.time.toString().substring(0,19)}+' '+${common.user.userName}+' 回复了:'+${common.content}"></p>
-            <a th:href="'/common/delete?common='+${common.id}">删除</a>
-        </div>
-        <form action="/common/add" method="get">
-            &nbsp&nbsp&nbsp<label>
-            <input name="toId" th:value="${message.user.id}" type="hidden">
-            <input name="messageid" th:value="${message.id}" type="hidden">
-            <input type="text" name="content" placeholder="回复">
-            <input type="submit" value="回复">
-        </label>
+    <div th:each="message,messageStat :${messagelist}" class="alert alert-success list-group">
+        <div class="list-group-item">
+            <h3 th:text="${message.user.userName}+' '+${message.time.toString().substring(0,19)}"></h3>
+            <p th:text="${message.content}" style="margin-left: 1%"></p>
             <br/>
-        </form>
-        <a th:href="'/message/delete?message='+${message.id}">删除</a>
+            <div th:each="common,commonStat :${message.commons}" class="list-group">
+                <div class="list-group-item">
+                    <h4 th:text="'&nbsp&nbsp&nbsp&nbsp'+${common.user.userName}+' '+${common.time.toString().substring(0,19)}+' '"></h4>
+                    <p th:text="${common.content}" style="margin-left: 2%"></p>
+                </div>
+                <a th:href="'/common/delete?common='+${common.id}"
+                   class="label label-badge label-danger pull-right">删除回复</a>
+            </div>
+            <form action="/common/add" method="get" style="height: auto">
+                &nbsp&nbsp&nbsp<label>
+                <input name="toId" th:value="${message.user.id}" type="hidden">
+                <input name="messageid" th:value="${message.id}" type="hidden">
+                <div style="">
+                    <div class="input-control has-label-left " style="display:inline-block">
+                        <input type="text" name="content" class="form-control" id="re">
+                        <label for="re" class="input-control-label-left">回复</label>
+                    </div>
+                    <input type="submit" value="回复" class="btn btn-primary">
+                </div>
+                <br/>
+            </label>
+            </form>
+        </div>
+        <a th:href="'/message/delete?message='+${message.id}" class="label label-badge label-danger pull-right"
+           style="bottom: 5px;">删除留言</a>
+        <br/>
     </div>
 </div>
 </body>

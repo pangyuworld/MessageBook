@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>注册账号</title>
+    <title>用户注册</title>
 
-    <link rel="stylesheet" href="/css/login.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/register.css" type="text/css"/>
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
 
-    <link rel="stylesheet" href="/css/zui.min.css">
+    <link rel="stylesheet" href="/css/zui.min.css"/>
     <!-- ZUI Javascript 依赖 jQuery -->
     <script src="/lib/jquery/jquery.js"></script>
     <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
@@ -15,21 +15,26 @@
 </head>
 <body>
 
-<div class="login">
-    <form class="login-form" action="/register/doregister" method="post">
-        <br/>
-        <input type="text" class="form-control form-ele" placeholder="用户名" name="userName">
-        <br/>
-        <input type="password" class="form-control form-ele" placeholder="密码" name="passWord">
-        <br/>
-        <input type="password" class="form-control form-ele" placeholder="确认密码" name="password2">
-        <br/>
-        <button class="btn form-ele" type="submit">注册</button>
-        <br/>
-        <a href="/login" style="float: right">登陆</a>
-        <br/>
-        <p th:text="${error}" style="color: red;"></p>
-    </form>
+<div class="heads">
+    <a class="label label-badge label-info" href="/">主页</a>
+</div>
+<div class="cont container">
+    <div class="login register">
+        <form class="login-form" action="/register/doregister" method="post">
+            <br/>
+            <input type="text" class="form-control form-ele" placeholder="用户名" name="userName">
+            <br/>
+            <input type="password" class="form-control form-ele" placeholder="密码" name="passWord">
+            <br/>
+            <input type="password" class="form-control form-ele" placeholder="确认密码" name="password2">
+            <br/>
+            <button class="btn form-ele" type="submit">注册</button>
+            <br/>
+            <a href="/login" style="float: right">登陆</a>
+            <br/>
+            <p th:text="${reactor}" style="color: red;"></p>
+        </form>
+    </div>
 </div>
 </body>
 </html>

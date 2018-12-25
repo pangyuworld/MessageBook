@@ -21,11 +21,11 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    MessageJPA messageJPA;
+    private MessageJPA messageJPA;
     @Autowired
-    UserJPA userJPA;
+    private UserJPA userJPA;
     @Autowired
-    CommonJPA commonJPA;
+    private CommonJPA commonJPA;
 
     /**
      * 主页
@@ -71,6 +71,15 @@ public class IndexController {
         return "redirect:/";
     }
 
+    /**
+     *  添加回复
+     * @author pang
+     * @date 2018/12/25
+     * @param common
+     * @param session
+     * @param request
+     * @return java.lang.String
+     */
     @GetMapping("/common/add")
     public String addCommon(Common common, HttpSession session,HttpServletRequest request){
         User from= (User) session.getAttribute("user");
@@ -82,6 +91,13 @@ public class IndexController {
         return "redirect:/";
     }
 
+    /**
+     *  删除回复
+     * @author pang
+     * @date 2018/12/25
+     * @param common
+     * @return java.lang.String
+     */
     @GetMapping("/common/delete")
     public String deleteCommon(String common){
         long commonId=Long.parseLong(common);
@@ -89,6 +105,13 @@ public class IndexController {
         return "redirect:/";
     }
 
+    /**
+     *  删除评论
+     * @author pang
+     * @date 2018/12/25
+     * @param message
+     * @return java.lang.String
+     */
     @GetMapping("/message/delete")
     public String deleteMessage(String message){
         long messageId=Long.parseLong(message);
