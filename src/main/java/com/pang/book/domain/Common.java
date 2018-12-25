@@ -25,11 +25,13 @@ public class Common {
     @Column(name="common_to")
     private long toId;
 
-    @Column(name="common_from")
-    private long fromId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="common_from")
+    private User user;
 
-    @Column(name="message_id")
-    private long messageId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="message_id")
+    private Message message;
 
     public long getId() {
         return id;
@@ -67,21 +69,21 @@ public class Common {
         return this;
     }
 
-    public long getFromId() {
-        return fromId;
+    public User getUser() {
+        return user;
     }
 
-    public Common setFromId(long fromId) {
-        this.fromId = fromId;
+    public Common setUser(User user) {
+        this.user = user;
         return this;
     }
 
-    public long getMessageId() {
-        return messageId;
+    public Message getMessage() {
+        return message;
     }
 
-    public Common setMessageId(long messageId) {
-        this.messageId = messageId;
+    public Common setMessage(Message message) {
+        this.message = message;
         return this;
     }
 }

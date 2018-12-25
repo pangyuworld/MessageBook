@@ -23,8 +23,20 @@ public class Message {
     @Column(name= "message_content")
     private String content;
 
-    @Column(name = "user_id")
-    private long user_id;
+
+    @ManyToOne(cascade=CascadeType.ALL  ,fetch = FetchType.EAGER,optional=false)//可选属性optional=false,表示author不能为空。删除文章，不影响用户
+    @JoinColumn(name="user_id")//设置在article表中的关联字段(外键)
+    private User user;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public Message setUser(User user) {
+        this.user = user;
+        return this;
+    }
 
     public long getId() {
         return id;
@@ -34,6 +46,8 @@ public class Message {
         this.id = id;
         return this;
     }
+
+
 
     public String getTime() {
         return time;
@@ -53,12 +67,5 @@ public class Message {
         return this;
     }
 
-    public long getUser_id() {
-        return user_id;
-    }
 
-    public Message setUser_id(long user_id) {
-        this.user_id = user_id;
-        return this;
-    }
 }

@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-    <meta charset="UTF-8" />
-    <title></title>
+    <meta charset="UTF-8"/>
+    <title>留言板</title>
+    <link rel="stylesheet" href="/css/index.css" type="text/css"/>
+    <script th:inline="javascript">
+        load = function () {
+            var head = document.getElementById("head");
+            var user = [[${user}]];
+            if (user.length > 0) {
+                var text = document.createElement("p");
+                var h=document.createElement("a");
+                h.href="/cancel";
+                h.innerText = "注销";
+                text.innerText = user;
+                head.appendChild(text);
+                head.append(" ");
+                head.appendChild(h);
+            } else {
+                var h1 = document.createElement("a");
+                var h2 = document.createElement("a");
+                h1.href = "login";
+                h2.href = 'register';
+                h1.innerText = "登陆";
+                h2.innerText = "注册";
+                head.appendChild(h1);
+                head.append("   ");
+                head.appendChild(h2);
+            }
+        }
+    </script>
 </head>
-<body>
-<h1 th:text="${host}">Hello World</h1>
+<body onload="load();">
+<div>
+    <div id="head"></div>
+    <br/>
+    <form action="addmessage" method="get">
+        <textarea rows="10" cols="30" placeholder="留下你的评论" name="content"></textarea>
+        <input type="submit" value="提交">
+    </form>
+    <br/>
+    <div th:each="message,messageStat :${messagelist}" class="messageBox">
+        <p>留言人：</p>
+        <p th:text="${message.user.userName}"></p>
+        <p>留言时间：</p>
+        <p th:text="${message.time}"></p>
+        <p>留言内容：</p>
+        <p th:text="${message.content}"></p>
+        <br/>
+    </div>
+</div>
 </body>
 </html>

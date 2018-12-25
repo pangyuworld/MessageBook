@@ -5,9 +5,12 @@ import com.pang.book.jpa.UserJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -47,7 +50,7 @@ public class LoginController {
      * @return java.lang.String
      */
     @PostMapping(value = "/login/dologin")
-    public String doLogin(User user, Model model){
+    public String doLogin(User user, Model model, HttpSession session){
         User realUser = userJPA.findByUserName(user.getUserName());//通过username找用户
         if (realUser==null){
             model.addAttribute("error","不存在该用户，请检查用户名是否输入正确");
@@ -57,6 +60,7 @@ public class LoginController {
             model.addAttribute("error","用户名或密码输入错误");
             return "login/login";
         }
+        session.setAttribute("user",user);
         return "redirect:/";
     }
 
@@ -80,6 +84,12 @@ public class LoginController {
             return "/register";
         }
         userJPA.saveAndFlush(user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/cancel")
+    public String cancel(HttpSession session){
+        session.setAttribute("user",null);
         return "redirect:/";
     }
 }

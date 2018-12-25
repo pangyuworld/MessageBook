@@ -2,6 +2,7 @@ package com.pang.book.domain;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @program: MessageBook
@@ -22,6 +23,18 @@ public class User {
 
     @Column(name = "password",nullable = false, length = 20)
     private String passWord;
+
+    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    private List<Message> messages;//文章列表
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public User setMessages(List<Message> messages) {
+        this.messages = messages;
+        return this;
+    }
 
     public long getId() {
         return id;
