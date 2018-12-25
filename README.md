@@ -12,3 +12,7 @@
 - 前端：
 - 后台：Spring Boot
 - 数据库：MySQL
+## 三、项目部署
+1. 创建数据库并导入数据库文件（/src/main/resources/message.sql）
+2. 修改数据库配置（/src/main/resources/application.properties）
+3. 运行com.pang.book.BookApplication类
