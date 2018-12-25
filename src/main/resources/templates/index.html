@@ -13,7 +13,7 @@
                 var h = document.createElement("a");
                 h.href = "/cancel";
                 h.innerText = "注销";
-                text.innerText = user+" ";
+                text.innerText = user + " ";
                 head.appendChild(text);
                 text.appendChild(h);
             } else {
@@ -34,7 +34,7 @@
 <div>
     <div id="head"></div>
     <br/>
-    <form action="addmessage" method="get">
+    <form action="/message/add" method="get">
         <textarea rows="10" cols="30" placeholder="留下你的评论" name="content"></textarea>
         <input type="submit" value="提交">
     </form>
@@ -46,16 +46,18 @@
         <p>回复：</p>
         <div th:each="common,commonStat :${message.commons}">
             <p th:text="'&nbsp&nbsp&nbsp&nbsp'+${common.time.toString().substring(0,19)}+' '+${common.user.userName}+' 回复了:'+${common.content}"></p>
+            <a th:href="'/common/delete?common='+${common.id}">删除</a>
         </div>
-        <form action="/addcommon" method="get">
+        <form action="/common/add" method="get">
             &nbsp&nbsp&nbsp<label>
-                <input name="toId" th:value="${message.user.id}" type="hidden">
-                <input name="messageid" th:value="${message.id}" type="hidden">
-                <input type="text" name="content" placeholder="回复">
-                <input type="submit" value="回复">
-            </label>
+            <input name="toId" th:value="${message.user.id}" type="hidden">
+            <input name="messageid" th:value="${message.id}" type="hidden">
+            <input type="text" name="content" placeholder="回复">
+            <input type="submit" value="回复">
+        </label>
             <br/>
         </form>
+        <a th:href="'/message/delete?message='+${message.id}">删除</a>
     </div>
 </div>
 </body>

@@ -62,7 +62,7 @@ public class IndexController {
      * @author pang
      * @date 2018/12/24
      */
-    @GetMapping("/addmessage")
+    @GetMapping("/message/add")
     public String addMessage(Message message, HttpSession session) {
         User writer = (User) session.getAttribute("user");
         message.setUser(writer);
@@ -71,16 +71,28 @@ public class IndexController {
         return "redirect:/";
     }
 
-    @GetMapping("/addcommon")
+    @GetMapping("/common/add")
     public String addCommon(Common common, HttpSession session,HttpServletRequest request){
         User from= (User) session.getAttribute("user");
-//        System.out.println(request.getParameter("messageid"));
-//        System.out.println(common);
         long messageid=Long.parseLong(request.getParameter("messageid"));
         Message message=messageJPA.getOne(messageid);
         common.setMessage(message);
         common.setUser(from);
         commonJPA.save(common);
+        return "redirect:/";
+    }
+
+    @GetMapping("/common/delete")
+    public String deleteCommon(String common){
+        long commonId=Long.parseLong(common);
+        commonJPA.deleteById(commonId);
+        return "redirect:/";
+    }
+
+    @GetMapping("/message/delete")
+    public String deleteMessage(String message){
+        long messageId=Long.parseLong(message);
+        messageJPA.deleteById(messageId);
         return "redirect:/";
     }
 }
