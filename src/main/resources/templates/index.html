@@ -10,13 +10,12 @@
             var user = [[${user}]];
             if (user.length > 0) {
                 var text = document.createElement("p");
-                var h=document.createElement("a");
-                h.href="/cancel";
+                var h = document.createElement("a");
+                h.href = "/cancel";
                 h.innerText = "注销";
-                text.innerText = user;
+                text.innerText = user+" ";
                 head.appendChild(text);
-                head.append(" ");
-                head.appendChild(h);
+                text.appendChild(h);
             } else {
                 var h1 = document.createElement("a");
                 var h2 = document.createElement("a");
@@ -41,13 +40,22 @@
     </form>
     <br/>
     <div th:each="message,messageStat :${messagelist}" class="messageBox">
-        <p>留言人：</p>
-        <p th:text="${message.user.userName}"></p>
-        <p>留言时间：</p>
-        <p th:text="${message.time}"></p>
-        <p>留言内容：</p>
-        <p th:text="${message.content}"></p>
-        <br/>
+        <p th:text="'留言人：'+${message.user.userName}"></p>
+        <p th:text="'留言时间：'+${message.time.toString().substring(0,19)}"></p>
+        <p th:text="'留言内容：'+${message.content}"></p>
+        <p>回复：</p>
+        <div th:each="common,commonStat :${message.commons}">
+            <p th:text="'&nbsp&nbsp&nbsp&nbsp'+${common.time.toString().substring(0,19)}+' '+${common.user.userName}+' 回复了:'+${common.content}"></p>
+        </div>
+        <form action="/addcommon" method="get">
+            &nbsp&nbsp&nbsp<label>
+                <input name="toId" th:value="${message.user.id}" type="hidden">
+                <input name="messageid" th:value="${message.id}" type="hidden">
+                <input type="text" name="content" placeholder="回复">
+                <input type="submit" value="回复">
+            </label>
+            <br/>
+        </form>
     </div>
 </div>
 </body>

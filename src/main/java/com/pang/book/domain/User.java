@@ -3,6 +3,7 @@ package com.pang.book.domain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @program: MessageBook
@@ -11,7 +12,6 @@ import java.util.List;
  * @create: 2018-12-21 23:36
  **/
 @Entity
-@Table(name="user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,26 +24,36 @@ public class User {
     @Column(name = "password",nullable = false, length = 20)
     private String passWord;
 
-    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-    private List<Message> messages;//文章列表
+    @OneToMany(mappedBy = "user",fetch=FetchType.LAZY)
+    private Set<Message> messages;
 
-    public List<Message> getMessages() {
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private Set<Common> commons;
+
+    public Set<Common> getCommons() {
+        return commons;
+    }
+
+    public User setCommons(Set<Common> commons) {
+        this.commons = commons;
+        return this;
+    }
+
+    public Set<Message> getMessages() {
         return messages;
     }
 
-    public User setMessages(List<Message> messages) {
+    public User setMessages(Set<Message> messages) {
         this.messages = messages;
         return this;
     }
+
+
 
     public long getId() {
         return id;
     }
 
-    public User setId(long id) {
-        this.id = id;
-        return this;
-    }
 
     public String getUserName() {
         return userName;
@@ -62,6 +72,5 @@ public class User {
         this.passWord = passWord;
         return this;
     }
-
 
 }

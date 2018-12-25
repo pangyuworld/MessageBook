@@ -60,7 +60,7 @@ public class LoginController {
             model.addAttribute("error","用户名或密码输入错误");
             return "login/login";
         }
-        session.setAttribute("user",user);
+        session.setAttribute("user",userJPA.findByUserName(user.getUserName()));
         return "redirect:/";
     }
 
@@ -84,7 +84,7 @@ public class LoginController {
             return "/register";
         }
         userJPA.saveAndFlush(user);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/cancel")

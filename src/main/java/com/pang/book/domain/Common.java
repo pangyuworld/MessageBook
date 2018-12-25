@@ -1,6 +1,11 @@
 package com.pang.book.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * @program: MessageBook
@@ -9,7 +14,7 @@ import javax.persistence.*;
  * @create: 2018-12-21 23:46
  **/
 @Entity
-@Table(name="common")
+@EntityListeners(AuditingEntityListener.class)
 public class Common {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +22,9 @@ public class Common {
     private long id;
 
     @Column(name= "common_time")
-    private String time;
+    @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm")
+    private Timestamp time;
 
     @Column(name="common_content")
     private String content;
@@ -25,13 +32,25 @@ public class Common {
     @Column(name="common_to")
     private long toId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER,optional=false)
     @JoinColumn(name="common_from")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER,optional=false)
     @JoinColumn(name="message_id")
     private Message message;
+
+    @Override
+    public String toString() {
+        return "Common{" +
+                "id=" + id +
+                ", time=" + time +
+                ", content='" + content + '\'' +
+                ", toId=" + toId +
+                ", user=" + user +
+                ", message=" + message +
+                '}';
+    }
 
     public long getId() {
         return id;
@@ -42,11 +61,11 @@ public class Common {
         return this;
     }
 
-    public String getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public Common setTime(String time) {
+    public Common setTime(Timestamp time) {
         this.time = time;
         return this;
     }
