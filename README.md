@@ -16,3 +16,6 @@
 1. 创建数据库并导入数据库文件（/src/main/resources/message.sql）
 2. 修改数据库配置（/src/main/resources/application.properties）
 3. 运行com.pang.book.BookApplication类
+## 四、demo
+[留言本](http://pangyuworld.cn:8080/book/)
+由于一些原因，demo和GitHub上的代码稍有不同
