@@ -2,6 +2,8 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>用户登录</title>
 
     <link rel="stylesheet" href="/css/login.css" type="text/css"/>
@@ -15,14 +17,40 @@
 </head>
 <body>
 
-<div class="heads">
-    <a class="label label-badge label-info" href="/">主页</a>
+
+<div>
+    <nav class="navbar " style="background-color: lightgreen" role="navigation">
+        <div class="container-fluid">
+            <!-- 导航头部 -->
+            <div class="navbar-header">
+                <!-- 移动设备上的导航切换按钮 -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse-example">
+                    <i class="icon icon-align-justify"></i>
+
+                </button>
+                <!-- 品牌名称或logo -->
+                <a class="navbar-brand" href="your/nice/url" style="padding: 0">
+                    <img src="/img/pang.jpg" width="40px" height="40px" class="img-rounded" alt="圆角图片">
+                </a>
+            </div>
+            <!-- 导航项目 -->
+            <div class="collapse navbar-collapse navbar-collapse-example">
+                <!-- 一般导航项目 -->
+                <ul class="nav navbar-nav">
+                    <li class="active "><a href="/"><span>主页</span></a></li>
+                </ul>
+            </div><!-- END .navbar-collapse -->
+        </div>
+    </nav>
 </div>
 <div class="cont container">
     <div class="login">
         <form class="login-form" action="/login/dologin" method="post">
             <br/>
-            <input type="text" class="form-control form-ele" placeholder="用户名" name="userName" onkeyup="value=value.replace(/[\W]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
+            <input type="text" class="form-control form-ele" placeholder="用户名" name="userName"
+                   onkeyup="value=value.replace(/[\W]/g,'') "
+                   onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
             <br/>
             <input type="password" class="form-control form-ele" placeholder="密码" name="passWord">
             <br/>

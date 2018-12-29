@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>留言板</title>
     <link rel="stylesheet" href="/css/index.css" type="text/css"/>
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
@@ -12,98 +13,95 @@
     <script src="/lib/jquery/jquery.js"></script>
     <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
     <script src="/js/zui.min.js"></script>
-    <script>
-        KindEditor.create('textarea.asss', {
-            basePath: '/lib/kindeditor/',
-            bodyClass: 'article-content',
-            resizeType: 1,
-            allowPreviewEmoticons: false,
-            allowImageUpload: false,
-            items: [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
-            ]
-        });
-    </script>
-    <script th:inline="javascript">
-        load = function () {
-            var head = document.getElementById("head");
-            var user = [[${user}]];
-            if (user.length > 0) {
-                var text = document.createElement("p");
-                var h = document.createElement("a");
-                h.href = "/cancel";
-                h.innerText = "注销";
-                h.className = 'label label-badge label-warning head-text';
-                text.innerText = user + " ";
-                head.appendChild(text);
-                text.appendChild(h);
-            } else {
-                var h1 = document.createElement("a");
-                var h2 = document.createElement("a");
-                h1.href = "login";
-                h2.href = 'register';
-                h1.innerText = "登陆";
-                h2.innerText = "注册";
-                h1.className = 'label label-badge label-success head-text';
-                h2.className = 'label label-badge label-danger head-text';
-                head.appendChild(h1);
-                head.append("   ");
-                head.appendChild(h2);
-            }
-
-        }
-    </script>
 </head>
-<body onload="load();">
-<div id="head" class="heads"></div>
-<div class="container">
-    <br/>
-    <form action="/message/add" method="get" class="message">
-        <div style="text-align:center;width: 100%;">
-            <textarea id="content" class="form-control asss"
-                      style="display:block;height:150px;resize:none" placeholder="留下你的评论"
-                      name="content"></textarea>
-        </div>
-        <div class="input-control has-label-left ">
-            <input type="submit"  id="commit" class="btn btn-primary" value="留言" style="float: right;">
-            <br/>
-        </div>
-    </form>
-    <br/>
-    <div th:each="message,messageStat :${messagelist}" class="alert alert-success list-group">
-        <div class="list-group-item">
-            <h3 th:text="${message.user.userName}+' '+${message.time.toString().substring(0,19)}"></h3>
-            <p th:text="${message.content}" style="margin-left: 1%"></p>
-            <br/>
-            <div th:each="common,commonStat :${message.commons}" class="list-group">
-                <div class="list-group-item">
-                    <h4 th:text="'&nbsp&nbsp&nbsp&nbsp'+${common.user.userName}+' '+${common.time.toString().substring(0,19)}+' '"></h4>
-                    <p th:text="${common.content}" style="margin-left: 2%"></p>
-                </div>
-                <a th:href="'/common/delete?common='+${common.id}"
-                   class="label label-badge label-danger pull-right">删除回复</a>
+<body>
+<!--头部布局-->
+<div>
+    <nav class="navbar" role="navigation" style="background-color: lightgreen">
+        <div class="container-fluid">
+            <!-- 导航头部 -->
+            <div class="navbar-header">
+                <!-- 移动设备上的导航切换按钮 -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse-example">
+                    <i class="icon icon-align-justify"></i>
+                </button>
+                <!-- 品牌名称或logo -->
+                <a class="navbar-brand" href="your/nice/url" style="padding: 0">
+                    <img src="/img/pang.jpg" width="40px" height="40px" class="img-rounded" alt="圆角图片">
+                </a>
             </div>
-            <form action="/common/add" method="get" style="height: auto">
-                &nbsp&nbsp&nbsp<label>
-                <input name="toId" th:value="${message.user.id}" type="hidden">
-                <input name="messageid" th:value="${message.id}" type="hidden">
-                <div style="">
-                    <div class="input-control has-label-left " style="display:inline-block">
-                        <input type="text" name="content" class="form-control" id="re">
-                        <label for="re" class="input-control-label-left">回复</label>
-                    </div>
-                    <input type="submit" value="回复" class="btn btn-primary">
-                </div>
-                <br/>
-            </label>
-            </form>
+            <!-- 导航项目 -->
+            <div class="collapse navbar-collapse navbar-collapse-example">
+                <!-- 一般导航项目 -->
+                <ul class="nav navbar-nav" >
+                    <li th:if="${user.length()}<1" class="active"><a href="/login">登录</a></li>
+                    <li th:if="${user.length()}<1" class="active "><a href="/register">注册</a></li>
+                    <li th:if="${user.length()}>0" class="active "><p th:text="${user}"></p></li>
+                    <li th:if="${user.length()}>0" class="active "><a href="/cancel"><span>注销</span></a></li>
+                </ul>
+            </div><!-- END .navbar-collapse -->
         </div>
-        <a th:href="'/message/delete?message='+${message.id}" class="label label-badge label-danger pull-right"
-           style="bottom: 5px;">删除留言</a>
+    </nav>
+</div>
+<!--评论实体-->
+<div class="mobile">
+    <div class="container" style="align-items: center">
+        <!--填写评论-->
+        <form action="/message/add" method="get">
+            <div class="container-fluid bor ">
+                <textarea class="form-control container-fluid" rows="5" placeholder="撰写留言..."
+                          style="resize:none;" name="content"></textarea>
+                <input class="pull-right btn btn-block btn-primary" type="submit" value="留言">
+            </div>
+        </form>
         <br/>
+        <!--评论浏览-->
+        <div class="container container-fluid bor">
+            <div class="comments">
+                <section id="section" class="container-fluid comments-list alert-primary img-rounded"
+                         style="margin-bottom: 10px" th:each="message:${messagelist}">
+                    <div class="comment" style="margin-left: 2%;margin-right: 2%">
+                        <div class="content">
+                            <div class="pull-right text-muted"
+                                 th:text="${message.time.toString().substring(0,19)}"></div>
+                            <div>
+                                <div><strong th:text="${message.user.userName}"></strong></div>
+                            </div>
+                            <div class="text" th:text="${message.content}"></div>
+                        </div>
+                        <div class="comments-list" th:each="common:${message.commons}">
+                            <div class="comment">
+                                <div class="content">
+                                    <div class="pull-right text-muted"
+                                         th:text="${common.time.toString().substring(0,19)}"></div>
+                                    <div>
+                                        <div><strong th:text="${common.user.userName}"></strong></div>
+                                        <div class="text" th:text="${common.content}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer style="margin-left: 2%;margin-right: 2%;padding-bottom: 40px">
+                        <form th:action="'/common/add/'+${message.id}" class="reply-form" id="commentReplyForm2">
+                            <form class="form">
+                                <div class="form-group">
+                                        <textarea class="form-control new-comment-text" rows="2"
+                                                  placeholder="撰写评论..." style="resize: none" name="content"></textarea>
+                                </div>
+                                <div class="form-group comment-user">
+                                    <input type="submit" value="回复" class="btn btn-success pull-right">
+                                </div>
+                            </form>
+                        </form>
+                    </footer>
+                </section>
+            </div>
+        </div>
     </div>
+</div>
+</div>
 </div>
 </body>
 </html>

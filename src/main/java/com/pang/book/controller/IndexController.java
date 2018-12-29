@@ -11,9 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -49,9 +48,27 @@ public class IndexController {
         if (messageList != null) {
             map.addAttribute("messagelist", messageList);
         }
+        map.addAttribute("author","全部");
         // return模板文件的名称，对应src/main/resources/templates/index.html
         return "index";
     }
+
+    /**
+     * 返回个人评论
+     * @param userId
+     * @param map
+     * @return
+     */
+    @RequestMapping("/{userid}")
+    public String userIndex(@PathVariable(name = "userid")Long userId,ModelMap map){
+        List<Message> messages=messageJPA.findByUserId(userId);
+        if (messages!=null){
+            map.addAttribute("messagelist", messages);
+        }
+        map.addAttribute("author",userJPA.getOne(userId).getUserName());
+        return "index";
+    }
+
 
     /**
      * 添加评论
@@ -77,14 +94,13 @@ public class IndexController {
      * @date 2018/12/25
      * @param common
      * @param session
-     * @param request
+     * @param messageId
      * @return java.lang.String
      */
-    @GetMapping("/common/add")
-    public String addCommon(Common common, HttpSession session,HttpServletRequest request){
+    @GetMapping("/common/add/{id}")
+    public String addCommon(Common common, HttpSession session, @PathVariable(name="id" ) Long messageId){
         User from= (User) session.getAttribute("user");
-        long messageid=Long.parseLong(request.getParameter("messageid"));
-        Message message=messageJPA.getOne(messageid);
+        Message message=messageJPA.getOne(messageId);
         common.setMessage(message);
         common.setUser(from);
         commonJPA.save(common);
@@ -95,12 +111,11 @@ public class IndexController {
      *  删除回复
      * @author pang
      * @date 2018/12/25
-     * @param common
+     * @param commonId
      * @return java.lang.String
      */
-    @GetMapping("/common/delete")
-    public String deleteCommon(String common){
-        long commonId=Long.parseLong(common);
+    @GetMapping("/common/delete/{id}")
+    public String deleteCommon(@PathVariable(name = "id") Long commonId){
         commonJPA.deleteById(commonId);
         return "redirect:/";
     }
@@ -109,13 +124,40 @@ public class IndexController {
      *  删除评论
      * @author pang
      * @date 2018/12/25
-     * @param message
+     * @param msgId
      * @return java.lang.String
      */
-    @GetMapping("/message/delete")
-    public String deleteMessage(String message){
-        long messageId=Long.parseLong(message);
-        messageJPA.deleteById(messageId);
+    @GetMapping("/message/delete/{msgId}")
+    public String deleteMessage(@PathVariable(name = "msgId") Long msgId){
+        messageJPA.deleteById(msgId);
+        return "redirect:/";
+    }
+
+    /**
+     * 编辑评论
+     * @param msgId
+     * @param text
+     * @return
+     */
+    @GetMapping("/message/edit/{msgId}")
+    public String editMessage(@PathVariable(name = "msgId") Long msgId,String text){
+        Message message=messageJPA.getOne(msgId);
+        message.setContent(text);
+        messageJPA.save(message);
+        return "redirect:/";
+    }
+
+    /**
+     * 编辑回复
+     * @param commonId
+     * @param text
+     * @return
+     */
+    @GetMapping("/common/edit/{commonId}")
+    public String editCommon(@PathVariable(name = "commonId") Long commonId,String text){
+        Common common=commonJPA.getOne(commonId);
+        common.setContent(text);
+        commonJPA.save(common);
         return "redirect:/";
     }
 }
