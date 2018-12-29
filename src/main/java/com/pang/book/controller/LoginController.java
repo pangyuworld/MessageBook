@@ -38,7 +38,7 @@ public class LoginController {
      */
     @RequestMapping("/register")
     public String indexRegister(){
-        return "/login/register";
+        return "login/register";
     }
 
     /**
@@ -77,15 +77,15 @@ public class LoginController {
         User realUser=userJPA.findByUserName(user.getUserName());
         String password2=request.getParameter("password2");
         if(user.getUserName()==null||user.getUserName().length()<1){
-            model.addAttribute("reactor","请输入用户名");
+            model.addAttribute("error","请输入用户名");
             return "login/register";
         }
         if (!password2.equals(user.getPassWord())){
-            model.addAttribute("reactor","两次输入密码不一致");
+            model.addAttribute("error","两次输入密码不一致");
             return "login/register";
         }
         if (realUser!=null){
-            model.addAttribute("reactor","该用户已存在");
+            model.addAttribute("error","该用户已存在");
             return "login/register";
         }
         userJPA.saveAndFlush(user);
