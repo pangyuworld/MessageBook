@@ -1,8 +1,9 @@
 package com.pang.book.domain;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Set;
  * @create: 2018-12-21 23:36
  **/
 @Entity
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,48 +31,5 @@ public class User {
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     private Set<Common> commons;
-
-    public Set<Common> getCommons() {
-        return commons;
-    }
-
-    public User setCommons(Set<Common> commons) {
-        this.commons = commons;
-        return this;
-    }
-
-    public Set<Message> getMessages() {
-        return messages;
-    }
-
-    public User setMessages(Set<Message> messages) {
-        this.messages = messages;
-        return this;
-    }
-
-
-
-    public long getId() {
-        return id;
-    }
-
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public User setUserName(String userName) {
-        this.userName = userName;
-        return this;
-    }
-
-    public String getPassWord() {
-        return passWord;
-    }
-
-    public User setPassWord(String passWord) {
-        this.passWord = passWord;
-        return this;
-    }
 
 }
