@@ -3,11 +3,6 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8, target-densitydpi=low-dpi"/>
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <title>留言板</title>
     <link rel="stylesheet" href="/css/index.css" type="text/css"/>
     <!-- ZUI 标准版压缩后的 CSS 文件 -->
@@ -19,34 +14,33 @@
     <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
     <script src="/js/zui.min.js"></script>
 </head>
-<body class="login-bg">
-
+<body>
 <!--头部布局-->
 <div>
-    <nav class="navbar" role="navigation" style="background-color: #039be5">
+    <nav class="navbar" role="navigation" >
         <div class="container-fluid">
             <!-- 导航头部 -->
             <div class="navbar-header">
                 <!-- 移动设备上的导航切换按钮 -->
-                <button type="button" class="navbar-toggle" data-toggle=""
-                        data-target=".navbar--example">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse-example">
                     <i class="icon icon-align-justify"></i>
                 </button>
                 <!-- 品牌名称或logo -->
-                <a class="navbar-brand" href="/" style="padding: 0">
-                    <img src="/img/pang.jpg" width="40px" height="40px" class="img-rounded" alt="圆角图片">
+                <a th:if="${user.length()}<1" class="navbar-brand" href="https://github.com/pangyuworld/MessageBook" style="padding: 0">
+                    <img  src="/img/github.png" width="40px" height="40px" class="img-rounded" alt="圆角图片">
                 </a>
+                <p th:if="${user.length()}>0" th:text="${user}" class="" style="font-size: 24px"></p>
             </div>
             <!-- 导航项目 -->
-            <div class=" navbar- navbar--example">
+            <div class="collapse navbar-collapse navbar-collapse-example">
                 <!-- 一般导航项目 -->
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" >
                     <li th:if="${user.length()}<1" class="active"><a href="/login">登录</a></li>
                     <li th:if="${user.length()}<1" class="active "><a href="/register">注册</a></li>
-                    <li th:if="${user.length()}>0" class="active "><p th:text="${user}"></p></li>
                     <li th:if="${user.length()}>0" class="active "><a href="/cancel"><span>注销</span></a></li>
                 </ul>
-            </div><!-- END .navbar- -->
+            </div><!-- END .navbar-collapse -->
         </div>
     </nav>
 </div>
@@ -76,9 +70,7 @@
                             </div>
                             <div class="text" th:text="${message.content}"></div>
                         </div>
-
-                        <br/>
-                        <div class="comments-list " th:each="common:${message.commons}" th:id="${message.id}">
+                        <div class="comments-list" th:each="common:${message.commons}">
                             <div class="comment">
                                 <div class="content">
                                     <div class="pull-right text-muted"
