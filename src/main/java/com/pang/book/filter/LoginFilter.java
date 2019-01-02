@@ -1,6 +1,6 @@
 package com.pang.book.filter;
 
-import com.pang.book.domain.User;
+import com.pang.book.entity.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

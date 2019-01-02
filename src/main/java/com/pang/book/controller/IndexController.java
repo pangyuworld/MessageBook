@@ -1,30 +1,31 @@
 package com.pang.book.controller;
 
-import com.pang.book.domain.Common;
-import com.pang.book.domain.Message;
-import com.pang.book.domain.User;
-import com.pang.book.jpa.CommonJPA;
-import com.pang.book.jpa.MessageJPA;
-import com.pang.book.jpa.UserJPA;
+import com.pang.book.entity.Common;
+import com.pang.book.entity.Message;
+import com.pang.book.entity.User;
+import com.pang.book.services.CommonService;
+import com.pang.book.services.MessageService;
+import com.pang.book.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
 import java.util.List;
 
 @Controller
 public class IndexController {
 
     @Autowired
-    private MessageJPA messageJPA;
+    private MessageService messageService;
     @Autowired
-    private UserJPA userJPA;
+    private UserService userService;
     @Autowired
-    private CommonJPA commonJPA;
+    private CommonService commonService;
 
     /**
      * 主页
@@ -39,35 +40,23 @@ public class IndexController {
     public String index(ModelMap map, HttpSession session) {
         // 加入一个属性，用来在模板中读取
         User user = (User) session.getAttribute("user");
-        List<Message> messageList = messageJPA.findAll(new Sort(Sort.Direction.DESC,"id"));
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.MEDIUM); //显示日期，时间（精确到分）
+        List<Message> messageList = messageService.findAllMessages();
         if (user != null) {
-            map.addAttribute("user", user.getUserName());
+            map.addAttribute("user", user);
         } else {
-            map.addAttribute("user", "");
+            map.addAttribute("user", null);
         }
         if (messageList != null) {
             map.addAttribute("messagelist", messageList);
+            System.out.println(messageList.get(1).getMessageTime().toString());
         }
         map.addAttribute("author","全部");
+        map.addAttribute("date",df);
         // return模板文件的名称，对应src/main/resources/templates/index.html
         return "index";
     }
-
-    /**
-     * 返回个人评论
-     * @param userId
-     * @param map
-     * @return
-     */
-    @RequestMapping("/{userid}")
-    public String userIndex(@PathVariable(name = "userid")Long userId,ModelMap map){
-        List<Message> messages=messageJPA.findByUserId(userId);
-        if (messages!=null){
-            map.addAttribute("messagelist", messages);
-        }
-        map.addAttribute("author",userJPA.getOne(userId).getUserName());
-        return "index";
-    }
+    
 
 
     /**
@@ -83,8 +72,7 @@ public class IndexController {
     public String addMessage(Message message, HttpSession session) {
         User writer = (User) session.getAttribute("user");
         message.setUser(writer);
-        System.out.println(message.getTime());
-        messageJPA.save(message);
+        messageService.update(message);
         return "redirect:/";
     }
 
@@ -98,12 +86,12 @@ public class IndexController {
      * @return java.lang.String
      */
     @GetMapping("/common/add/{id}")
-    public String addCommon(Common common, HttpSession session, @PathVariable(name="id" ) Long messageId){
+    public String addCommon(Common common, HttpSession session, @PathVariable(name="id" ) int messageId){
         User from= (User) session.getAttribute("user");
-        Message message=messageJPA.getOne(messageId);
-        common.setMessage(message);
-        common.setUser(from);
-        commonJPA.save(common);
+        Message message=messageService.findById(messageId);
+        common.setMessageId(message.getMessageId());
+        common.setCommonFrom(from.getUserId());
+        commonService.insert(common);
         return "redirect:/";
     }
 
@@ -115,8 +103,8 @@ public class IndexController {
      * @return java.lang.String
      */
     @GetMapping("/common/delete/{id}")
-    public String deleteCommon(@PathVariable(name = "id") Long commonId){
-        commonJPA.deleteById(commonId);
+    public String deleteCommon(@PathVariable(name = "id") int commonId){
+        commonService.deleteById(commonId);
         return "redirect:/";
     }
 
@@ -128,8 +116,8 @@ public class IndexController {
      * @return java.lang.String
      */
     @GetMapping("/message/delete/{msgId}")
-    public String deleteMessage(@PathVariable(name = "msgId") Long msgId){
-        messageJPA.deleteById(msgId);
+    public String deleteMessage(@PathVariable(name = "msgId") int msgId){
+        messageService.deleteById(msgId);
         return "redirect:/";
     }
 
@@ -140,10 +128,10 @@ public class IndexController {
      * @return
      */
     @GetMapping("/message/edit/{msgId}")
-    public String editMessage(@PathVariable(name = "msgId") Long msgId,String text){
-        Message message=messageJPA.getOne(msgId);
-        message.setContent(text);
-        messageJPA.save(message);
+    public String editMessage(@PathVariable(name = "msgId") int msgId,String text){
+        Message message=messageService.findById(msgId);
+        message.setMessageContent(text);
+        messageService.update(message);
         return "redirect:/";
     }
 
@@ -154,10 +142,10 @@ public class IndexController {
      * @return
      */
     @GetMapping("/common/edit/{commonId}")
-    public String editCommon(@PathVariable(name = "commonId") Long commonId,String text){
-        Common common=commonJPA.getOne(commonId);
-        common.setContent(text);
-        commonJPA.save(common);
+    public String editCommon(@PathVariable(name = "commonId") int commonId, String text){
+        Common common=commonService.findById(commonId);
+        common.setCommonContent(text);
+        commonService.update(common);
         return "redirect:/";
     }
 }

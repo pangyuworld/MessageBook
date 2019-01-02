@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pang.book.dao.CommonMapper" >
+  <resultMap id="BaseResultMap" type="com.pang.book.entity.Common" >
+    <id column="common_id" property="commonId" jdbcType="INTEGER" />
+    <result column="common_time" property="commonTime" jdbcType="TIMESTAMP" />
+    <result column="common_to" property="commonTo" jdbcType="INTEGER" />
+    <result column="message_id" property="messageId" jdbcType="INTEGER" />
+    <result column="common_from" property="commonFrom" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pang.book.entity.Common" extends="BaseResultMap" >
+    <result column="common_content" property="commonContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    common_id, common_time, common_to, message_id, common_from
+  </sql>
+  <sql id="Blob_Column_List" >
+    common_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from common
+    where common_id = #{commonId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from common
+    where common_id = #{commonId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pang.book.entity.Common" >
+    insert into common (common_id, common_time, common_to, 
+      message_id, common_from, common_content
+      )
+    values (#{commonId,jdbcType=INTEGER}, #{commonTime,jdbcType=TIMESTAMP}, #{commonTo,jdbcType=INTEGER}, 
+      #{messageId,jdbcType=INTEGER}, #{commonFrom,jdbcType=INTEGER}, #{commonContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pang.book.entity.Common" >
+    insert into common
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commonId != null" >
+        common_id,
+      </if>
+      <if test="commonTime != null" >
+        common_time,
+      </if>
+      <if test="commonTo != null" >
+        common_to,
+      </if>
+      <if test="messageId != null" >
+        message_id,
+      </if>
+      <if test="commonFrom != null" >
+        common_from,
+      </if>
+      <if test="commonContent != null" >
+        common_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commonId != null" >
+        #{commonId,jdbcType=INTEGER},
+      </if>
+      <if test="commonTime != null" >
+        #{commonTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commonTo != null" >
+        #{commonTo,jdbcType=INTEGER},
+      </if>
+      <if test="messageId != null" >
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="commonFrom != null" >
+        #{commonFrom,jdbcType=INTEGER},
+      </if>
+      <if test="commonContent != null" >
+        #{commonContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pang.book.entity.Common" >
+    update common
+    <set >
+      <if test="commonTime != null" >
+        common_time = #{commonTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commonTo != null" >
+        common_to = #{commonTo,jdbcType=INTEGER},
+      </if>
+      <if test="messageId != null" >
+        message_id = #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="commonFrom != null" >
+        common_from = #{commonFrom,jdbcType=INTEGER},
+      </if>
+      <if test="commonContent != null" >
+        common_content = #{commonContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where common_id = #{commonId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pang.book.entity.Common" >
+    update common
+    set common_time = #{commonTime,jdbcType=TIMESTAMP},
+      common_to = #{commonTo,jdbcType=INTEGER},
+      message_id = #{messageId,jdbcType=INTEGER},
+      common_from = #{commonFrom,jdbcType=INTEGER},
+      common_content = #{commonContent,jdbcType=LONGVARCHAR}
+    where common_id = #{commonId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pang.book.entity.Common" >
+    update common
+    set common_time = #{commonTime,jdbcType=TIMESTAMP},
+      common_to = #{commonTo,jdbcType=INTEGER},
+      message_id = #{messageId,jdbcType=INTEGER},
+      common_from = #{commonFrom,jdbcType=INTEGER}
+    where common_id = #{commonId,jdbcType=INTEGER}
+  </update>
+</mapper>

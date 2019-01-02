@@ -1,7 +1,7 @@
 package com.pang.book.controller;
 
-import com.pang.book.domain.User;
-import com.pang.book.jpa.UserJPA;
+import com.pang.book.entity.User;
+import com.pang.book.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
     @Autowired
-    private UserJPA userJPA;
+    private UserService userService;
 
     /**
      * 访问登陆主页
@@ -51,16 +51,16 @@ public class LoginController {
      */
     @PostMapping(value = "/login/dologin")
     public String doLogin(User user, Model model, HttpSession session){
-        User realUser = userJPA.findByUserName(user.getUserName());//通过username找用户
+        User realUser = userService.findByUsername(user.getUsername());//通过username找用户
         if (realUser==null){
             model.addAttribute("error","不存在该用户，请检查用户名是否输入正确");
             return "login/login";
         }
-        if (!realUser.getPassWord().equals(user.getPassWord())){
+        if (!realUser.getPassword().equals(user.getPassword())){
             model.addAttribute("error","用户名或密码输入错误");
             return "login/login";
         }
-        session.setAttribute("user",userJPA.findByUserName(user.getUserName()));
+        session.setAttribute("user",userService.findByUsername(user.getUsername()));
         return "redirect:/";
     }
 
@@ -74,13 +74,13 @@ public class LoginController {
      */
     @PostMapping("/register/doregister")
     public String doRegister(User user, Model model, HttpServletRequest request){
-        User realUser=userJPA.findByUserName(user.getUserName());
+        User realUser=userService.findByUsername(user.getUsername());
         String password2=request.getParameter("password2");
-        if(user.getUserName()==null||user.getUserName().length()<1){
+        if(user.getUsername()==null||user.getUsername().length()<1){
             model.addAttribute("error","请输入用户名");
             return "login/register";
         }
-        if (!password2.equals(user.getPassWord())){
+        if (!password2.equals(user.getPassword())){
             model.addAttribute("error","两次输入密码不一致");
             return "login/register";
         }
@@ -88,7 +88,7 @@ public class LoginController {
             model.addAttribute("error","该用户已存在");
             return "login/register";
         }
-        userJPA.saveAndFlush(user);
+        userService.insert(user);
         return "redirect:/login";
     }
 
