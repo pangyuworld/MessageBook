@@ -3,9 +3,11 @@ body {
     background-position: center center;
     background-repeat: repeat-y;
     background-attachment: fixed;
+    margin: 0 0;
     background-size: cover;
 }
-.cont{
+
+.cont {
     height: 100%;
     width: 100%;
     display: flex;
@@ -14,6 +16,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .login {
     height: auto;
     width: 300px;
