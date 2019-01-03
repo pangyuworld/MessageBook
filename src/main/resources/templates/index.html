@@ -17,7 +17,7 @@
 <body>
 <!--头部布局-->
 <div>
-    <nav class="navbar" role="navigation" >
+    <nav class="navbar" role="navigation">
         <div class="container-fluid">
             <!-- 导航头部 -->
             <div class="navbar-header">
@@ -27,15 +27,16 @@
                     <i class="icon icon-align-justify"></i>
                 </button>
                 <!-- 品牌名称或logo -->
-                <a th:unless="${user}" class="navbar-brand" href="https://github.com/pangyuworld/MessageBook" style="padding: 0">
-                    <img  src="/img/github.png" width="40px" height="40px" class="img-rounded" alt="圆角图片">
+                <a th:unless="${user}" class="navbar-brand" href="https://github.com/pangyuworld/MessageBook"
+                   style="padding: 0">
+                    <img src="/img/github.png" width="40px" height="40px" class="img-rounded" alt="圆角图片">
                 </a>
                 <p th:if="${user}" th:text="${user.username}" class="" style="font-size: 24px"></p>
             </div>
             <!-- 导航项目 -->
             <div class="collapse navbar-collapse navbar-collapse-example">
                 <!-- 一般导航项目 -->
-                <ul class="nav navbar-nav" >
+                <ul class="nav navbar-nav">
                     <li th:unless="${user}" class="active"><a href="/login">登录</a></li>
                     <li th:unless="${user}" class="active "><a href="/register">注册</a></li>
                     <li th:if="${user}" class="active "><a href="/cancel"><span>注销</span></a></li>
@@ -69,6 +70,12 @@
                                 <div><strong th:text="${message.user.username}"></strong></div>
                             </div>
                             <div class="text" th:text="${message.messageContent}"></div>
+                            <div class="actions" th:if="${user}">
+                                <!--<a th:if="${user.userId}==${message.user.userId}"
+                                   th:href="'message/edit/'+${message.messageId}">编辑</a>-->
+                                <a th:if="${user.userId}==${message.user.userId}"
+                                   th:href="'message/delete/'+${message.messageId}">删除</a>
+                            </div>
                         </div>
                         <div class="comments-list" th:each="common:${message.commons}">
                             <div class="comment">
@@ -76,8 +83,15 @@
                                     <div class="pull-right text-muted"
                                          th:text="${date.format(common.commonTime)}"></div>
                                     <div>
-                                        <div><strong th:text="${common.sender}"></strong></div>
+                                        <div><strong th:text="${common.sender}"></strong><span class="text-muted">&nbsp;回复&nbsp;</span><strong
+                                                th:text="${common.receiver}"></strong></div>
                                         <div class="text" th:text="${common.commonContent}"></div>
+                                        <div class="actions" th:if="${user}">
+                                            <!--<a th:href="'common/add/'+${common.commonId}">回复</a>
+                                            <a th:href="'common/edit/'+${common.commonId}"
+                                               th:if="${user.userId}==${common.commonFrom}">编辑</a>-->
+                                            <a th:if="${user.userId}==${common.commonFrom}" th:href="'common/delete/'+${common.commonId}">删除</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +103,8 @@
                                 <input type="hidden" th:value="${message.user.userId}" name="commonTo">
                                 <div class="form-group">
                                         <textarea class="form-control new-comment-text" rows="2"
-                                                  placeholder="撰写评论..." style="resize: none" name="commonContent"></textarea>
+                                                  placeholder="撰写评论..." style="resize: none"
+                                                  name="commonContent"></textarea>
                                 </div>
                                 <div class="form-group comment-user">
                                     <input type="submit" value="回复" class="btn btn-success pull-right">
