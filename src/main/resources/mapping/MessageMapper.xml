@@ -8,7 +8,8 @@
         -->
         <id column="message_id" jdbcType="INTEGER" property="messageId" javaType="int"/>
         <result column="message_time" jdbcType="TIMESTAMP" property="messageTime" javaType="Date"/>
-        <association property="user" select="getUser" column="user_id" javaType="com.pang.book.entity.User"/>
+        <!--<association property="user" select="getUser" column="user_id" javaType="com.pang.book.entity.User"/>-->
+        <result column="user_id" jdbcType="INTEGER" property="userId" javaType="int"/>
         <collection property="commons" select="getCommons" ofType="com.pang.book.entity.Common" column="message_id">
             <result property="receiver" javaType="String" jdbcType="VARCHAR"/>
             <result property="sender" jdbcType="VARCHAR" javaType="String"/>
@@ -35,16 +36,6 @@
         -->
         message_content
     </sql>
-    <select id="getUser" resultType="com.pang.book.entity.User" parameterType="int">
-    select
-      a.user_id as userId,
-      a.username,
-      a.password
-    from
-      user a
-    where
-      user_id=#{user_id}
-  </select>
     <select id="getCommons" resultType="com.pang.book.entity.Common" parameterType="int">
     select a.message_id     as messageId,
        a.common_content as commonContent,
@@ -71,7 +62,10 @@
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
+        ,
+--         user.username as userName
         from message
+--         inner join user on user.user_id = message.user_id
         where message_id = #{messageId,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -167,7 +161,7 @@
         user_id = #{userId,jdbcType=INTEGER}
         where message_id = #{messageId,jdbcType=INTEGER}
     </update>
-    <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    <select id="selectAllMessages" resultMap="ResultMapWithBLOBs">
     select
       a.message_id ,
       a.message_content,
@@ -177,4 +171,10 @@
       message a
     order by a.message_id DESC
   </select>
+    <select id="selectAllMessagesPage" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        limit #{currIndex} , #{pageSize}
+    </select>
 </mapper>

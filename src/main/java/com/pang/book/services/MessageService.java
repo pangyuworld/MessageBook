@@ -6,7 +6,9 @@ import com.pang.book.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author pang
@@ -20,18 +22,31 @@ import java.util.List;
 public class MessageService extends CommonDao {
     @Autowired
     private MessageMapper mapper;
-    public List<Message> findAllMessages(){
-        return mapper.selectAll();
+
+    public List<Message> findAllMessages() {
+        return mapper.selectAllMessages();
     }
 
-    public int update(Message message){
+    public List<Message> findAllMessages(int cuurIndex,int pageSize){
+        Map<String,Object> page=new HashMap<>();
+        page.put("currIndex",(cuurIndex-1)*pageSize);
+        page.put("pageSize",pageSize);
+        return mapper.selectAllMessagesPage(page);
+    }
+
+    public int update(Message message) {
         return mapper.updateByPrimaryKeySelective(message);
     }
 
-    public Message findById(int id){
+    public Message findById(int id) {
         return mapper.selectByPrimaryKey(id);
     }
-    public int deleteById(int id){
+
+    public int deleteById(int id) {
         return mapper.deleteByPrimaryKey(id);
+    }
+
+    public int insert(Message message){
+        return mapper.insertSelective(message);
     }
 }

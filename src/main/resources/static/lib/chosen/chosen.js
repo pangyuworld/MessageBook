@@ -1126,7 +1126,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             }
             /// ZUI change begin
             /// Change title with text
-            ///         return this.selected_item.find("span").text(text); // old code
+            ///         return this.selected_item.find("span").text(text); // old status
             return this.selected_item.find("span").attr('title', text).text(text);
             /// ZUI change end
         };

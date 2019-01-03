@@ -5,7 +5,7 @@
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
  */
 
-/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+/*! Some status copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
 /* ========================================================================
  * ZUI: jquery.extensions.js
@@ -1635,7 +1635,7 @@
 //
 // About: Examples
 //
-// This working example, complete with fully commented code, illustrates a few
+// This working example, complete with fully commented status, illustrates a few
 // ways in which this plugin can be used.
 //
 // resize event - http://benalman.com/code/projects/jquery-resize/examples/resize/

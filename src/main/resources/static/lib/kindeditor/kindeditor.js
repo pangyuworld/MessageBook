@@ -221,7 +221,7 @@
         extend: _extend,
         json: _json
     };
-    var _INLINE_TAG_MAP = _toMap('a,abbr,acronym,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,img,input,ins,kbd,label,map,q,s,samp,select,small,span,strike,strong,sub,sup,textarea,tt,u,var'),
+    var _INLINE_TAG_MAP = _toMap('a,abbr,acronym,b,basefont,bdo,big,br,button,cite,status,del,dfn,em,font,i,img,input,ins,kbd,label,map,q,s,samp,select,small,span,strike,strong,sub,sup,textarea,tt,u,var'),
         _BLOCK_TAG_MAP = _toMap('address,applet,blockquote,body,center,dd,dir,div,dl,dt,fieldset,form,frameset,h1,h2,h3,h4,h5,h6,head,hr,html,iframe,ins,isindex,li,map,menu,meta,noframes,noscript,object,ol,p,pre,script,style,table,tbody,td,tfoot,th,thead,title,tr,ul'),
         _SINGLE_TAG_MAP = _toMap('area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed'),
         _STYLE_TAG_MAP = _toMap('b,basefont,big,del,em,font,i,s,small,span,strike,strong,sub,sup,u'),
@@ -6790,7 +6790,7 @@ KindEditor.plugin('clearhtml', function(K) {
  * @licence http://www.kindsoft.net/license.php
  *******************************************************************************/
 
-// google code prettify: http://google-code-prettify.googlecode.com/
+// google status prettify: http://google-code-prettify.googlecode.com/
 // http://google-code-prettify.googlecode.com/
 
 KindEditor.plugin('code', function(K) {
@@ -6800,7 +6800,7 @@ KindEditor.plugin('code', function(K) {
         var lang = self.lang(name + '.'),
             html = ['<div style="padding:10px 20px;">',
                 '<div class="ke-dialog-row">',
-                '<select class="ke-code-type">',
+                '<select class="ke-status-type">',
                 '<option value="js">JavaScript</option>',
                 '<option value="html">HTML</option>',
                 '<option value="css">CSS</option>',
@@ -6828,7 +6828,7 @@ KindEditor.plugin('code', function(K) {
                 yesBtn: {
                     name: self.lang('yes'),
                     click: function(e) {
-                        var type = K('.ke-code-type', dialog.div).val(),
+                        var type = K('.ke-status-type', dialog.div).val(),
                             code = textarea.val(),
                             cls = type === '' ? '' : ' lang-' + type,
                             html = '<pre class="prettyprint' + cls + '">\n' + K.escape(code) + '</pre> ';
@@ -8993,7 +8993,7 @@ KindEditor.plugin('multiimage', function(K) {
         var movieElement = this.getMovieElement();
         var returnValue, returnString;
 
-        // Flash's method if calling ExternalInterface methods (code adapted from MooTools).
+        // Flash's method if calling ExternalInterface methods (status adapted from MooTools).
         try {
             returnString = movieElement.CallFunction('<invoke name="' + functionName + '" returntype="javascript">' + __flash__argumentsToXML(argumentArray, 0) + '</invoke>');
             returnValue = eval(returnString);
@@ -9331,7 +9331,7 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     // Private: This event is called by Flash when it has finished loading. Don't modify this.
-    // Use the swfupload_loaded_handler event setting to execute custom code when SWFUpload has loaded.
+    // Use the swfupload_loaded_handler event setting to execute custom status when SWFUpload has loaded.
     SWFUpload.prototype.flashReady = function() {
         // Check that the movie element is loaded correctly with its ExternalInterface methods defined
         var movieElement = this.getMovieElement();
@@ -9365,7 +9365,7 @@ KindEditor.plugin('multiimage', function(K) {
 
         }
 
-        // Fix Flashes own cleanup code so if the SWFMovie was removed from the page
+        // Fix Flashes own cleanup status so if the SWFMovie was removed from the page
         // it doesn't display errors.
         window["__flash__removeCallback"] = function(instance, name) {
             try {
