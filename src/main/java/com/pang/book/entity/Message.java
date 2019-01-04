@@ -11,23 +11,11 @@ public class Message {
 
     private Date messageTime;
 
-    private int userId;
+    private User user;
 
     private String messageContent;
 
     private List<Common> commons;
 
-    private String userName;
-
-
-    public boolean enabSave(){
-        if (userId<=0) {
-            return false;
-        }
-        else if (messageContent==null) {
-            return false;
-        }else {
-            return true;
-        }
-    }
+    private int userId;
 }

@@ -478,7 +478,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         else if(ext == 'ppt' || ext == 'pptx' || ext == 'key') icon = 'file-powerpoint';
         else if(ext == 'xls' || ext == 'xlsx' || ext == 'numbers') icon = 'file-excel';
         else if(ext == 'html' || ext == 'htm') icon = 'globe';
-        else if(ext == 'js' || ext == 'php' || ext == 'cs' || ext == 'jsx' || ext == 'css' || ext == 'less' || ext == 'json' || ext == 'java' || ext == 'lua' || ext == 'py' || ext == 'c' || ext == 'cpp' || ext == 'swift' || ext == 'h' || ext == 'sh' || ext == 'rb' || ext == 'yml' || ext == 'ini' || ext == 'sql' || ext == 'xml') icon = 'file-status';
+        else if(ext == 'js' || ext == 'php' || ext == 'cs' || ext == 'jsx' || ext == 'css' || ext == 'less' || ext == 'json' || ext == 'java' || ext == 'lua' || ext == 'py' || ext == 'c' || ext == 'cpp' || ext == 'swift' || ext == 'h' || ext == 'sh' || ext == 'rb' || ext == 'yml' || ext == 'ini' || ext == 'sql' || ext == 'xml') icon = 'file-code';
         else if(ext == 'apk') icon = 'android';
         else if(ext == 'exe') icon = 'windows';
         else if(ext == 'pkg' || ext == 'msi' || ext == 'dmg') icon = 'cube';

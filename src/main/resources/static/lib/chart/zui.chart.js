@@ -28,7 +28,7 @@
 /// ----- ZUI change begin -----
 /// Add jquery object to namespace
 
-/// (function(){ // Old status
+/// (function(){ // Old code
 (function($) {
 
     /// ----- ZUI change end -----
@@ -40,7 +40,7 @@
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
     /// 
-    ///   var root = this, // old status
+    ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
         previous = root.Chart;
@@ -2063,18 +2063,18 @@
     /// ----- ZUI change end -----
 
     /// ----- ZUI change begin -----
-    /// Remove unused status
-    //  Chart.noConflict = function() // old status begin
+    /// Remove unused code
+    //  Chart.noConflict = function() // old code begin
     //  {
     //      root.Chart = previous;
     //      return Chart;
-    //  }; // old status end
+    //  }; // old code end
     /// ----- ZUI change end -----
 
     /// ----- ZUI change begin -----
     /// Add jquery object to namespace
 
-    /// }).call(this); // Old status
+    /// }).call(this); // Old code
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
@@ -2096,7 +2096,7 @@
 /// ----- ZUI change begin -----
 /// Add jquery object to namespace
 
-/// (function(){ // Old status
+/// (function(){ // Old code
 (function($) {
 
     /// ----- ZUI change end -----
@@ -2105,7 +2105,7 @@
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
     ///
-    ///   var root = this, // old status
+    ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
         Chart = root.Chart,
@@ -2515,7 +2515,7 @@
     /// ----- ZUI change begin -----
     /// Add jquery object to namespace
 
-    /// }).call(this); // Old status
+    /// }).call(this); // Old code
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
@@ -2536,7 +2536,7 @@
 /// ----- ZUI change begin -----
 /// Add jquery object to namespace
 
-/// (function(){ // Old status
+/// (function(){ // Old code
 (function($) {
 
     /// ----- ZUI change end -----
@@ -2545,7 +2545,7 @@
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
     /// 
-    ///   var root = this, // old status
+    ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
         Chart = root.Chart,
@@ -2561,7 +2561,7 @@
 
         //Number - The width of each segment stroke
         /// ZUI change begin
-        ///        segmentStrokeWidth: 2, // old status
+        ///        segmentStrokeWidth: 2, // old code
         segmentStrokeWidth: 1,
         /// ZUI change end
 
@@ -2578,8 +2578,8 @@
         // String - Scale label position
         scaleLabelPlacement: 'auto',
 
-        ///        Number - Amount of animation steps // old status
-        ///        animationSteps: 100, // old status
+        ///        Number - Amount of animation steps // old code
+        ///        animationSteps: 100, // old code
         animationSteps: 60,
         /// ZUI change end
 
@@ -2865,7 +2865,7 @@
     /// ----- ZUI change begin -----
     /// Add jquery object to namespace
 
-    /// }).call(this); // Old status
+    /// }).call(this); // Old code
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
@@ -2887,7 +2887,7 @@
 /// ----- ZUI change begin -----
 /// Add jquery object to namespace
 
-/// (function(){ // Old status
+/// (function(){ // Old code
 (function($) {
 
     /// ----- ZUI change end -----
@@ -2896,7 +2896,7 @@
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
     ///
-    ///   var root = this, // old status
+    ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
         Chart = root.Chart,
@@ -3260,7 +3260,7 @@
     /// ----- ZUI change begin -----
     /// Add jquery object to namespace
 
-    /// }).call(this); // Old status
+    /// }).call(this); // Old code
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
