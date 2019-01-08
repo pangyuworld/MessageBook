@@ -18,7 +18,7 @@
     common_content
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -37,7 +37,7 @@
       #{messageId,jdbcType=INTEGER}, #{commonFrom,jdbcType=INTEGER}, #{commonContent,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.pang.book.entity.Common" >
+  <insert id="insertSelective" parameterType="com.pang.book.entity.Common" useGeneratedKeys="true" keyProperty="commonId">
     insert into common
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="commonId != null" >
@@ -118,4 +118,20 @@
       common_from = #{commonFrom,jdbcType=INTEGER}
     where common_id = #{commonId,jdbcType=INTEGER}
   </update>
+  <select id="selectCommonByMessageId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from common
+    where common_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllCommon" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from common
+    order by common_id desc
+  </select>
 </mapper>

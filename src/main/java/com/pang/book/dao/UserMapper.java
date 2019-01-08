@@ -5,8 +5,7 @@ import com.pang.book.entity.User;
 import java.util.List;
 import java.util.Map;
 
-public interface UserMapper {
-
+public interface UserMapper  {
     List<User> selectAllUserPage(Map<String,Object> data);
 
     List<User> selectAllUser();

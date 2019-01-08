@@ -3,6 +3,10 @@ package com.pang.book.controller.rest;
 import com.pang.book.entity.RestJson;
 import com.pang.book.entity.User;
 import com.pang.book.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@Api(description = "用户表",tags = "User")
 public class RestUser {
     @Autowired
     private UserService userDao;
@@ -23,6 +29,8 @@ public class RestUser {
      * @param id
      * @return
      */
+    @ApiOperation(value = "根据id获得User", notes = "")
+    @ApiImplicitParam(name = "id", value = "用户id", dataType = "int", required = true)
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = "application/json")
     public RestJson<User> getUser(@PathVariable int id) {
         User user = userDao.findById(id);
@@ -45,11 +53,16 @@ public class RestUser {
      *
      * @return
      */
-    @RequestMapping(value = "/user/all", method = RequestMethod.GET, produces = "application/json")
-    public RestJson<List<User>> getUser(int page, int perpage) {
+    @ApiOperation(value = "获得全部user", notes = "获得全部user（可分页）")
+    @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页数", required = false, dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "perpage", value = "每页数量", required = false, dataType = "int",paramType = "query")
+    })
+    public RestJson<List<User>> getUser(HttpServletRequest request) {
         List<User> userList;
-        if (page > 0) {
-            userList = userDao.findAllUser(page, perpage);
+        if (request.getParameter("page") != null) {
+            userList = userDao.findAllUser(Integer.parseInt(request.getParameter("page")), Integer.parseInt(request.getParameter("perpage")));
         } else {
             userList = userDao.findAllUser();
         }
@@ -73,14 +86,15 @@ public class RestUser {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST, produces = "application/json")
+    @ApiOperation(value = "添加用户", notes = "添加用户")
+    @RequestMapping(value = "/user", method = RequestMethod.POST, produces = "application/json")
     public RestJson<User> addUser(User user) {
         RestJson<User> restJson = new RestJson<>();
         try {
             userDao.insert(user);
             restJson.setMsg("add one user")
                     .setSuccess(true)
-                    .setData(userDao.findByUsername(user.getUsername()))
+                    .setData(userDao.findById(user.getUserId()))
                     .setStatus(201);
         } catch (DataAccessException e) {
             restJson.setMsg("the user is existing")
@@ -96,6 +110,8 @@ public class RestUser {
      * @param id
      * @return
      */
+    @ApiOperation(value = "删除用户",notes = "根据用户id删除用户")
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "int",paramType = "path")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public RestJson<User> deleteUser(@PathVariable int id) {
         RestJson<User> restJson = new RestJson<>();
@@ -120,6 +136,8 @@ public class RestUser {
      * @param id
      * @return
      */
+    @ApiOperation(value = "更新用户",notes = "更新用户")
+    @ApiImplicitParam(name = "id",value = "要更新的用户id",dataType = "int",paramType = "path")
     @RequestMapping(value = "user/{id}", method = RequestMethod.PUT, produces = "application/json")
     public RestJson<User> updateUser(User user, @PathVariable int id) {
         User userTemp = userDao.findById(id);

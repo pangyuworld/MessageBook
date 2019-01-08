@@ -6,6 +6,8 @@ import com.pang.book.entity.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author pang
  * @version V1.0
@@ -20,7 +22,7 @@ public class CommonService extends CommonDao {
     private CommonMapper mapper;
 
     public int insert(Common record){
-        return mapper.insert(record);
+        return mapper.insertSelective(record);
     }
 
     public int deleteById(int id){
@@ -33,5 +35,13 @@ public class CommonService extends CommonDao {
 
     public int update(Common common){
         return mapper.updateByPrimaryKeySelective(common);
+    }
+
+    public List<Common> findByMessageId(int messageId){
+        return mapper.selectCommonByMessageId(messageId);
+    }
+
+    public List<Common> findAllCommon(){
+        return mapper.selectAllCommon();
     }
 }

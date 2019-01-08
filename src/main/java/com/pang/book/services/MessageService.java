@@ -49,4 +49,6 @@ public class MessageService extends CommonDao {
     public int insert(Message message){
         return mapper.insertSelective(message);
     }
+
+
 }

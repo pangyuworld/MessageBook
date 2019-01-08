@@ -1,33 +1,50 @@
 package com.pang.book.entity;
 
-import lombok.Data;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
-import java.util.List;
 
-@Data
+@ApiModel("留言类")
 public class Message {
+    @ApiModelProperty("留言id")
     private Integer messageId;
-
+    @ApiModelProperty("留言时间")
     private Date messageTime;
-
-    private int userId;
-
+    @ApiModelProperty("留言ID")
+    private Integer userId;
+    @ApiModelProperty("留言内容")
     private String messageContent;
 
-    private List<Common> commons;
+    public Integer getMessageId() {
+        return messageId;
+    }
 
-    private String userName;
+    public void setMessageId(Integer messageId) {
+        this.messageId = messageId;
+    }
 
+    public Date getMessageTime() {
+        return messageTime;
+    }
 
-    public boolean enabSave(){
-        if (userId<=0) {
-            return false;
-        }
-        else if (messageContent==null) {
-            return false;
-        }else {
-            return true;
-        }
+    public void setMessageTime(Date messageTime) {
+        this.messageTime = messageTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent == null ? null : messageContent.trim();
     }
 }
