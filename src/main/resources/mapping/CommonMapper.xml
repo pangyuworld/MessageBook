@@ -118,15 +118,15 @@
       common_from = #{commonFrom,jdbcType=INTEGER}
     where common_id = #{commonId,jdbcType=INTEGER}
   </update>
-  <select id="selectCommonByMessageId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  <select id="selectCommonByMessageId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from common
-    where common_id = #{messageId,jdbcType=INTEGER}
+    where message_id = #{messageId,jdbcType=INTEGER}
   </select>
-  <select id="selectAllCommon" resultMap="BaseResultMap">
+  <select id="selectAllCommon" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,

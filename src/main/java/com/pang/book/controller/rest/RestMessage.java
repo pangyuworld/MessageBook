@@ -88,7 +88,7 @@ public class RestMessage {
     /**
      * 添加留言
      *
-     * @param messageContent 留言内容
+     * @param message 留言内容
      * @param session        认证
      * @return com.pang.book.entity.RestJson<com.pang.book.entity.Message>
      * @author pang

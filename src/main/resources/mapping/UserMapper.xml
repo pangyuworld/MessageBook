@@ -79,4 +79,10 @@
     from user
     limit #{currIndex} , #{pageSize}
   </select>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
 </mapper>

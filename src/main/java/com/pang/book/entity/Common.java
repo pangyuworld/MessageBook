@@ -1,5 +1,6 @@
 package com.pang.book.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -8,6 +9,7 @@ import java.util.Date;
 public class Common {
     @ApiModelProperty("回复id")
     private Integer commonId;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @ApiModelProperty("回复时间")
     private Date commonTime;
     @ApiModelProperty("receiver")

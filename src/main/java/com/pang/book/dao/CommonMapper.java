@@ -7,6 +7,7 @@ import java.util.List;
 public interface CommonMapper {
 
     List<Common> selectAllCommon();
+
     List<Common> selectCommonByMessageId(Integer messageId);
 
     int deleteByPrimaryKey(Integer commonId);

@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@Api(description = "用户表",tags = "User")
+@Api(description = "用户表", tags = "User")
 public class RestUser {
     @Autowired
     private UserService userDao;
@@ -36,14 +37,14 @@ public class RestUser {
         User user = userDao.findById(id);
         RestJson<User> restJson = new RestJson<>();
         if (user == null) {
-            restJson.setMsg("not found user")
+            restJson.setMsg("没有找到该用户")
                     .setSuccess(false)
                     .setStatus(404);
         } else {
             restJson.setSuccess(true)
                     .setStatus(200)
                     .setData(user)
-                    .setMsg("find one user");
+                    .setMsg("查找用户成功");
         }
         return restJson;
     }
@@ -56,8 +57,8 @@ public class RestUser {
     @ApiOperation(value = "获得全部user", notes = "获得全部user（可分页）")
     @RequestMapping(value = "/user", method = RequestMethod.GET, produces = "application/json")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页数", required = false, dataType = "int",paramType = "query"),
-            @ApiImplicitParam(name = "perpage", value = "每页数量", required = false, dataType = "int",paramType = "query")
+            @ApiImplicitParam(name = "page", value = "页数", required = false, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "perpage", value = "每页数量", required = false, dataType = "int", paramType = "query")
     })
     public RestJson<List<User>> getUser(HttpServletRequest request) {
         List<User> userList;
@@ -69,12 +70,12 @@ public class RestUser {
         RestJson<List<User>> restJson = new RestJson<>();
         if (userList == null) {
             restJson.setSuccess(false)
-                    .setMsg("not found user")
+                    .setMsg("没有找到用户")
                     .setStatus(404);
         } else {
             restJson.setStatus(200)
                     .setSuccess(true)
-                    .setMsg("find all users")
+                    .setMsg("查找所有用户")
                     .setData(userList);
         }
         return restJson;
@@ -92,12 +93,12 @@ public class RestUser {
         RestJson<User> restJson = new RestJson<>();
         try {
             userDao.insert(user);
-            restJson.setMsg("add one user")
+            restJson.setMsg("添加用户成功")
                     .setSuccess(true)
                     .setData(userDao.findById(user.getUserId()))
                     .setStatus(201);
         } catch (DataAccessException e) {
-            restJson.setMsg("the user is existing")
+            restJson.setMsg("用户已经存在")
                     .setStatus(409)
                     .setSuccess(false);
         }
@@ -110,20 +111,20 @@ public class RestUser {
      * @param id
      * @return
      */
-    @ApiOperation(value = "删除用户",notes = "根据用户id删除用户")
-    @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "int",paramType = "path")
+    @ApiOperation(value = "删除用户", notes = "根据用户id删除用户")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "int", paramType = "path")
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE, produces = "application/json")
     public RestJson<User> deleteUser(@PathVariable int id) {
         RestJson<User> restJson = new RestJson<>();
         User user = userDao.findById(id);
         if (user == null) {
             restJson.setSuccess(false)
-                    .setMsg("the user is not existing")
+                    .setMsg("用户不存在")
                     .setStatus(404);
         } else {
             userDao.deleteById(id);
             restJson.setSuccess(true)
-                    .setMsg("delete one user")
+                    .setMsg("删除用户成功")
                     .setStatus(200);
         }
         return restJson;
@@ -136,24 +137,63 @@ public class RestUser {
      * @param id
      * @return
      */
-    @ApiOperation(value = "更新用户",notes = "更新用户")
-    @ApiImplicitParam(name = "id",value = "要更新的用户id",dataType = "int",paramType = "path")
+    @ApiOperation(value = "更新用户", notes = "更新用户")
+    @ApiImplicitParam(name = "id", value = "要更新的用户id", dataType = "int", paramType = "path")
     @RequestMapping(value = "user/{id}", method = RequestMethod.PUT, produces = "application/json")
     public RestJson<User> updateUser(User user, @PathVariable int id) {
         User userTemp = userDao.findById(id);
         RestJson<User> restJson = new RestJson<>();
         if (userTemp == null) {
-            restJson.setMsg("the user is not existing")
+            restJson.setMsg("用户不存在")
                     .setSuccess(false)
                     .setStatus(404);
         } else {
             user.setUserId(id);
             userDao.updateUser(user);
             restJson.setStatus(200)
-                    .setMsg("update one user")
+                    .setMsg("更新用户成功")
                     .setSuccess(true)
                     .setData(user);
         }
+        return restJson;
+    }
+
+    /**
+     * 登陆验证
+     *
+     * @param username
+     * @param password
+     * @param session
+     * @return com.pang.book.entity.RestJson<com.pang.book.entity.User>
+     * @author pang
+     * @date 2019/1/9
+     */
+    @ApiOperation("登陆验证")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value = "login", method = RequestMethod.POST, produces = "application/json")
+    public RestJson<User> doLogin(String username, String password, HttpSession session) {
+        /*通过username找用户*/
+        User realUser = userDao.findByUsername(username);
+        RestJson<User> restJson = new RestJson<>();
+        if (realUser == null) {
+            restJson.setSuccess(false)
+                    .setStatus(404)
+                    .setMsg("没有找到该用户");
+            return restJson;
+        }
+        if (!realUser.getPassword().equals(password)) {
+            restJson.setMsg("密码不正确")
+                    .setSuccess(false)
+                    .setStatus(403);
+            return restJson;
+        }
+        restJson.setStatus(200)
+                .setSuccess(true)
+                .setMsg("登陆成功");
+        session.setAttribute("user", userDao.findByUsername(username));
         return restJson;
     }
 }
