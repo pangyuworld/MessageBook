@@ -104,9 +104,10 @@
   </select>
   <select id="selectAllMessagesPage" parameterType="Map" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List"/>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from message
     limit #{currIndex} , #{pageSize}
-    order by a.message_id DESC
   </select>
 </mapper>
