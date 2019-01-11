@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -80,25 +79,18 @@ public class RestCommon {
     /**
      * 添加回复
      *
-     * @param commonContent
-     * @param commonTo
-     * @param session
+     * @param common
      * @return com.pang.book.entity.RestJson<com.pang.book.entity.Common>
      * @author pang
      * @date 2019/1/8
      */
     @ApiOperation("添加回复")
     @RequestMapping(value = "common", method = RequestMethod.POST, produces = "application/json")
-    public RestJson<Common> insertCommon(String commonContent, int commonTo, int messageId, HttpSession session) {
+    public RestJson<Common> insertCommon(Common common) {
         RestJson<Common> restJson = new RestJson<>();
-        Common common = new Common();
-        common.setMessageId(messageId);
-        common.setCommonContent(commonContent);
-        common.setCommonTo(commonTo);
         common.setCommonTime(new Date());
         /*common.setCommonFrom(((User)session.getAttribute("user")).getUserId());*/
         /* 开发环境，添加默认的sender */
-        common.setCommonFrom(22);
         if (common.getCommonTo() != null && common.getCommonContent() != null) {
             commonDao.insert(common);
             restJson.setSuccess(true)

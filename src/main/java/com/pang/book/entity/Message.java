@@ -13,7 +13,7 @@ public class Message {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @ApiModelProperty("留言时间")
     private Date messageTime;
-    @ApiModelProperty("留言ID")
+    @ApiModelProperty("留言人ID")
     private Integer userId;
     @ApiModelProperty("留言内容")
     private String messageContent;

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -98,16 +99,14 @@ public class RestMessage {
     @RequestMapping(value = "/message", method = RequestMethod.POST, produces = "application/json")
     public RestJson<Message> addMessage(Message message, HttpSession session) {
         RestJson<Message> restJson = new RestJson<>();
-        Message messageTemp = new Message();
-        messageTemp.setMessageContent(message.getMessageContent());
+        message.setMessageTime(new Date());
         /*message.setUserId(((User)session.getAttribute("user")).getUserId());*/
         /*开发阶段添加默认user_id*/
-        messageTemp.setUserId(22);
-        if (messageDao.insert(messageTemp) > 0) {
+        if (messageDao.insert(message) > 0) {
             restJson.setMsg("insert one message")
                     .setSuccess(true)
                     .setStatus(200)
-                    .setData(messageDao.findById(messageTemp.getMessageId()));
+                    .setData(messageDao.findById(message.getMessageId()));
         } else {
             restJson.setStatus(404)
                     .setSuccess(false)

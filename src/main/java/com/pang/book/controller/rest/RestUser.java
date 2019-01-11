@@ -192,8 +192,49 @@ public class RestUser {
         }
         restJson.setStatus(200)
                 .setSuccess(true)
-                .setMsg("登陆成功");
+                .setMsg("登陆成功")
+                .setData(realUser);
         session.setAttribute("user", userDao.findByUsername(username));
         return restJson;
+    }
+
+    /**
+     * 获得登陆状态
+     * @author pang
+     * @date 2019/1/10
+     * @param session
+     * @return com.pang.book.entity.RestJson<com.pang.book.entity.User>
+     */
+    @ApiOperation("获得登陆状态")
+    @RequestMapping(value = "/status",method = RequestMethod.GET,produces = "application/json")
+    public RestJson<User> getStatus(HttpSession session){
+        RestJson<User> restJson=new RestJson<>();
+        User user=(User)session.getAttribute("user");
+        if (user!=null){
+            restJson.setMsg("已登录")
+                    .setSuccess(true)
+                    .setData(user)
+                    .setStatus(200);
+        } else {
+            restJson.setStatus(403)
+                    .setSuccess(false)
+                    .setMsg("未登录");
+        }
+        return restJson;
+    }
+
+    /**
+     * 注销登陆
+     * @author pang
+     * @date 2019/1/10
+     * @param session
+     * @return com.pang.book.entity.RestJson<com.pang.book.entity.User>
+     */
+    @ApiOperation("注销")
+    @RequestMapping(value = "/cancel",method = RequestMethod.GET,produces = "application/json")
+    public RestJson<User> cancel(HttpSession session){
+        session.setAttribute("user",null);
+
+        return new RestJson<User>().setMsg("注销成功").setSuccess(true).setStatus(200);
     }
 }
