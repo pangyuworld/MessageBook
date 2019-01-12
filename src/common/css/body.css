@@ -1,5 +1,4 @@
 body {
-    font-family: "Times New Roman", Times, serif;
     margin: 0 0;
     background-image: url(../img/back.jpg);
     background-position: center center;
@@ -7,5 +6,5 @@ body {
     background-attachment: fixed;
     background-size: cover;
     
-  font-size: 25px;
+  font-size: 18px;
 }

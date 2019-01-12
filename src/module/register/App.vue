@@ -1,5 +1,6 @@
 <template>
   <div>
+    <top></top>
     <div class="login">
       <register></register>
     </div>
@@ -8,12 +9,14 @@
 
 <script>
 import Register from "components/Register";
-import 'common/css/body.css'
+import Top from "components/Top"
+import '../../common/css/body.css'
 
 export default {
   name: "app",
   components: {
-    Register
+    Register,
+    Top
   }
 };
 </script>

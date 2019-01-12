@@ -11,8 +11,8 @@
       <el-input type="password" v-model="form.password2" placeholder="确认密码"/>
     </el-form-item>
     <el-form-item>
-      <el-button v-on:click="login" type="primary">注册</el-button>
-      <el-button v-on:click="login">登陆</el-button>
+      <el-button v-on:click="login" type="primary" style="float:left">&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;</el-button>
+      <a href="../module/login.html" style="float:right"><el-button >&nbsp;&nbsp;&nbsp;登陆&nbsp;&nbsp;&nbsp;</el-button></a>
     </el-form-item>
   </el-form>
 </template>
@@ -31,13 +31,7 @@ export default {
   methods: {
     open(msg) {
       this.$alert(msg, "登陆提示", {
-        confirmButtonText: "确定",
-        // callback: action => {
-        //   this.$message({
-        //     type: "info",
-        //     message: `action: ${action}`
-        //   });
-        // }
+        confirmButtonText: "确定"
       });
     },
     login: function() {

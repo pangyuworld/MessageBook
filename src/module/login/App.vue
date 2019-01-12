@@ -1,5 +1,6 @@
 <template>
 <div>
+  <top></top>
   <div class="login">
     <login></login>
   </div></div>
@@ -7,12 +8,15 @@
 
 <script>
 import Login from "components/Login";
-import 'common/css/body.css'
+import Top from "components/Top"
+import '../../common/css/body.css'
+
 
 export default {
   name: "app",
   components: {
-    Login
+    Login,
+    Top
   }
 };
 </script>

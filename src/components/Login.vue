@@ -8,8 +8,14 @@
       <el-input type="password" v-model="form.password" placeholder="密码"/>
     </el-form-item>
     <el-form-item>
-      <el-button v-on:click="login" type="primary">登陆</el-button>
-      <el-button v-on:click="login">注册</el-button>
+      <el-button
+        v-on:click="login"
+        type="primary"
+        style="float:left"
+      >&nbsp;&nbsp;&nbsp;登陆&nbsp;&nbsp;&nbsp;</el-button>
+      <a href="../module/register.html" style="float:right">
+        <el-button>&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;</el-button>
+      </a>
     </el-form-item>
   </el-form>
 </template>
@@ -23,12 +29,12 @@ export default {
     form: {
       username: "",
       password: ""
-    },
+    }
   }),
   methods: {
     open(msg) {
       this.$alert(msg, "登陆提示", {
-        confirmButtonText: "确定",
+        confirmButtonText: "确定"
         // callback: action => {
         //   this.$message({
         //     type: "info",
@@ -51,10 +57,14 @@ export default {
         var data = res.data;
         if (data.success) {
           // 登陆成功
-          this.open(data.msg)
+          sessionStorage.setItem("login", data.data.username);
+          sessionStorage.setItem("loginId", data.data.userId);
+          // console.log(data.data.userId)
+          sessionStorage.setItem("loginStatus", data.success);
+          window.location.href = "../module/index.html";
         } else {
           // 登陆失败
-          this.open(data.msg)
+          this.open(data.msg);
         }
       });
     }

@@ -30,7 +30,6 @@ export default {
       }).then(function(res) {
         that.user.id = res.data.data.userId;
         that.user.username=res.data.data.username;
-        console.log(that.user)
       });
     }
   }
