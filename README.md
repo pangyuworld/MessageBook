@@ -17,7 +17,7 @@
 2. 修改数据库配置（/src/main/resources/application.properties）
 3. 运行com.pang.book.BookApplication类
 ## 四、demo
-[留言本V1](http://pangyuworld.cn:8080/book/)
+- [留言本V1](http://pangyuworld.cn:8080/book/)
 由于一些原因，demo和GitHub上的代码稍有不同
-[留言本V2](http://pangyuworld.cn:18887/book/)
+- [留言本V2](http://pangyuworld.cn:18887/book/)
 
