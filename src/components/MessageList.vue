@@ -10,7 +10,7 @@
           <span>&nbsp;留言：</span>
         </div>
         <div>
-          <span>{{message.messageContent}}</span>
+          <span style="word-break: break-all; word-wrap:break-word;">{{message.messageContent}}</span>
         </div>
         <br>
         <common :messageId="message.messageId"></common>
@@ -36,7 +36,7 @@
       <div class="fenye">
         <el-pagination
           background
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next"
                 :page-sizes="[1,2,3,4,5,6]"
       @size-change="handleSizeChange"
 
@@ -79,7 +79,7 @@ export default {
   methods: {
     getSumLength() {
       var that = this;
-      var url = "http://localhost:8888/message";
+      var url = "http://118.24.107.35:18888/message";
       var params = new URLSearchParams();
       Axios({
         method: "get",
@@ -92,7 +92,7 @@ export default {
     getMessage(ppage, pperpage) {
       var that = this;
       var url =
-        "http://localhost:8888/message?page=" + ppage + "&perpage=" + pperpage;
+        "http://118.24.107.35:18888/message?page=" + ppage + "&perpage=" + pperpage;
       var params = new URLSearchParams();
       Axios({
         method: "get",
@@ -104,7 +104,7 @@ export default {
     },
     getup() {
       var that = this;
-      var url = "http://localhost:8888/common";
+      var url = "http://118.24.107.35:18888/common";
       var commonTo = this.comFrom;
       var commonFrom = sessionStorage.getItem("loginId");
       var texts = this.content;
@@ -136,6 +136,9 @@ export default {
           that.open(res.message);
         }
       });
+    },
+    open(msg){
+      this.$message(msg);
     },
     getIndex(val) {
       if (val == "") {

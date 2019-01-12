@@ -26,11 +26,11 @@ export default {
 
 <style>
 .bbox {
-  width: 60%;
+  width:60%;
   margin-left: auto;
   margin-right: auto;
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 1000px) {
   .bbox {
     width: 90%;
     margin-left: auto;

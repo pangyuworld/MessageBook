@@ -2,10 +2,10 @@
   <!-- 登陆表单 -->
   <el-form ref="form" :model="form" label-width="80px" style="width:300px" class="login-from">
     <el-form-item label="账号">
-      <el-input type="text" v-model="form.username" placeholder="账号"></el-input>
+      <el-input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" v-model="form.username" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item label="密码">
-      <el-input type="password" v-model="form.password" placeholder="密码"/>
+      <el-input onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" type="password" v-model="form.password" placeholder="密码"/>
     </el-form-item>
     <el-form-item>
       <el-button
@@ -33,19 +33,11 @@ export default {
   }),
   methods: {
     open(msg) {
-      this.$alert(msg, "登陆提示", {
-        confirmButtonText: "确定"
-        // callback: action => {
-        //   this.$message({
-        //     type: "info",
-        //     message: `action: ${action}`
-        //   });
-        // }
-      });
+      this.$message(msg);
     },
     login: function() {
       var that = this;
-      var url = "http://localhost:8888/login";
+      var url = "http://118.24.107.35:18888/login";
       var params = new URLSearchParams();
       params.append("username", this.form.username);
       params.append("password", this.form.password);

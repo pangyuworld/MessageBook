@@ -11,9 +11,11 @@
             <strong style="float:left;">
               <user :userId="common.commonTo"></user>
             </strong>
-          </div>&nbsp;:&nbsp;
-          <span style="float:right">{{common.commonTime}}</span>
-          <span>{{common.commonContent}}</span>
+          </div>&nbsp;:&nbsp;<br/><br/>
+          <span style="word-break: break-all; word-wrap:break-word;">{{common.commonContent}}</span>
+          <br/>
+          <span style="float:right;font-size=10px;font-family:Times">{{common.commonTime}}</span>
+          <br/>
           <el-collapse-item title="回复" value="common.commonId" :name="index">
             <el-form ref="form" :model="form" label-width="80px" :inline="true">
               <el-input
@@ -61,7 +63,7 @@ export default {
   methods: {
     getCommon(msgId) {
       var that = this;
-      var url = "http://localhost:8888/common/" + msgId;
+      var url = "http://118.24.107.35:18888/common/" + msgId;
       Axios({
         method: "get",
         url: url
@@ -72,7 +74,7 @@ export default {
     },
     getup() {
       var that = this;
-      var url = "http://localhost:8888/common";
+      var url = "http://118.24.107.35:18888/common";
       var commonTo = this.comFrom;
       var commonFrom = sessionStorage.getItem("loginId");
       var texts = this.content;
@@ -106,9 +108,7 @@ export default {
       });
     },
     open(msg) {
-      this.$alert(msg, "添加回复失败", {
-        confirmButtonText: "确定"
-      });
+      this.$message(msg);
     },
     getIndex(val) {
       if (val == "") {

@@ -2,13 +2,13 @@
   <!-- 注册表单 -->
   <el-form ref="form" :model="form" label-width="80px" style="width:300px" class="login-from">
     <el-form-item label="账号">
-      <el-input type="text" v-model="form.username" placeholder="用户名"></el-input>
+      <el-input type="text" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" v-model="form.username" placeholder="用户名"></el-input>
     </el-form-item>
     <el-form-item label="密码">
-      <el-input type="password" v-model="form.password" placeholder="密码"/>
+      <el-input type="password" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" v-model="form.password" placeholder="密码"/>
     </el-form-item>
     <el-form-item label="确认密码">
-      <el-input type="password" v-model="form.password2" placeholder="确认密码"/>
+      <el-input type="password" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" v-model="form.password2" placeholder="确认密码"/>
     </el-form-item>
     <el-form-item>
       <el-button v-on:click="login" type="primary" style="float:left">&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;</el-button>
@@ -30,9 +30,8 @@ export default {
   }),
   methods: {
     open(msg) {
-      this.$alert(msg, "登陆提示", {
-        confirmButtonText: "确定"
-      });
+     
+      this.$message(msg);
     },
     login: function() {
       if(this.form.username.length<3){
@@ -44,7 +43,7 @@ export default {
         return;
       }
       var that = this;
-      var url = "http://localhost:8888/user";
+      var url = "http://118.24.107.35:18888/user";
       var params = new URLSearchParams();
       params.append("username", this.form.username);
       params.append("password", this.form.password);

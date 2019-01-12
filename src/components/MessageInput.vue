@@ -10,7 +10,11 @@
         style="font-size:20px;"
       ></el-input>
       <div class="sub">
-        <el-button type="primary" @click="submitForm()" style="font-size:20px;">留言</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm()"
+          style="font-size:20px;width:100%;text-alignt:center;"
+        >留言</el-button>
       </div>
     </el-form>
   </div>
@@ -37,20 +41,14 @@ export default {
         userId.length < 1 ||
         userId == "null"
       ) {
-        console.log("aaaaaa");
-        this.$alert("请登录", "登陆提示", {
-          confirmButtonText: "确定",
-          callback: action => {
-            window.location.href = "../module/login.html";
-          }
-        });
+        this.$message("请登录");
         return;
       }
       if (texts == null || texts.length < 1) {
         that.open("请输入留言内容");
         return;
       }
-      var url = "http://localhost:8888/message";
+      var url = "http://118.24.107.35:18888/message";
       var params = new URLSearchParams();
       params.append("userId", userId);
       params.append("messageContent", texts);
@@ -73,9 +71,7 @@ export default {
       });
     },
     open(msg) {
-      this.$alert(msg, "留言提示", {
-        confirmButtonText: "确定"
-      });
+      this.$message(msg);
     }
   }
 };
@@ -85,9 +81,9 @@ export default {
   margin-top: 20px;
 }
 .sub {
-  margin-left: 90%;
+  /* margin-left: 40px; */
   margin-top: 20px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   margin-bottom: 20px;
   /* margin: 20px; */
 }

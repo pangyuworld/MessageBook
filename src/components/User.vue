@@ -23,7 +23,7 @@ export default {
   methods: {
       getUser(uId) {
       var that = this;
-      var url = "http://localhost:8888/user/"+uId;
+      var url = "http://118.24.107.35:18888/user/"+uId;
       Axios({
         method: "get",
         url: url
